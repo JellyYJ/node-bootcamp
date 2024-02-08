@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
-const { restrictTo } = require('../controllers/authController');
 
 // name, email, photo, password, passwordConfirm
 const userSchema = new mongoose.Schema({
@@ -55,14 +54,13 @@ userSchema.pre('save', async function (next) {
   // only run this function when the password has been modified
   if (!this.isModified('password')) {
     return next();
-  } else {
-    // set the password to the current password
-    this.password = await bcrypt.hash(this.password, 12);
-    this.passwordConfirm = undefined; // don't wnat to persist this to DB
-
-    this.passwordChangedAt = Date.now() - 1000;
-    next();
   }
+  // set the password to the current password
+  this.password = await bcrypt.hash(this.password, 12);
+  this.passwordConfirm = undefined; // don't wnat to persist this to DB
+
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
 });
 
 userSchema.pre('save', function (next) {

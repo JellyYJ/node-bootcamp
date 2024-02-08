@@ -1,19 +1,23 @@
-const express = require('express');
+// const { send } = require('process');
+const { promisify } = require('util');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
-const jwt = require('jsonwebtoken');
 const AppError = require('../utils/appError');
-const { promisify } = require('util');
-const sendEmail = require('./../utils/email');
-const { send } = require('process');
-const crypto = require('crypto');
+const sendEmail = require('../utils/email');
 
 // Create token
-const signToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
+// const signToken = (id) => {
+//   return jwt.sign({ id }, process.env.JWT_SECRET, {
+//     expiresIn: process.env.JWT_EXPIRES_IN,
+//   });
+// };
+
+const signToken = (id) =>
+  jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-};
 
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
@@ -105,8 +109,9 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // Roles and Permissions
-exports.restrictTo = (...roles) => {
-  return (req, res, next) => {
+exports.restrictTo =
+  (...roles) =>
+  (req, res, next) => {
     // roles is an array: ['admin','user']
     if (!roles.includes(req.user.role)) {
       return next(
@@ -115,7 +120,6 @@ exports.restrictTo = (...roles) => {
     }
     next();
   };
-};
 
 // Password Reset
 exports.forgotPassword = catchAsync(async (req, res, next) => {

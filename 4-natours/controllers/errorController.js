@@ -22,11 +22,11 @@ const handleValidationErrorDB = (err) => {
 
 // Handling JWT errors
 const handleJWTError = () => {
-  new AppError('Invalid token. Please login again.', 401);
+  throw new AppError('Invalid token. Please login again.', 401);
 };
 
 const handleJWTExpiredError = () => {
-  new AppError('Expired token. Please login again.', 401);
+  throw new AppError('Expired token. Please login again.', 401);
 };
 
 // Send errors

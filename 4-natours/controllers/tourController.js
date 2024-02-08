@@ -1,5 +1,4 @@
-const express = require('express');
-const fs = require('fs');
+// const fs = require('fs');
 
 const Tour = require('../models/tourModel');
 const APIFeatures = require('../utils/apiFeatures');
@@ -220,7 +219,7 @@ exports.createTour = catchAsync(async (req, res, next) => {
  * PATCH
  * update a tour by id
  */
-exports.updateTour = catchAsync(async (req, res) => {
+exports.updateTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -241,7 +240,7 @@ exports.updateTour = catchAsync(async (req, res) => {
 /**
  * DELETE
  */
-exports.deleteTour = catchAsync(async (req, res) => {
+exports.deleteTour = catchAsync(async (req, res, next) => {
   const tour = await Tour.findByIdAndDelete(req.params.id);
   if (!tour) {
     return next(new AppError('No tour found with that ID', 404));

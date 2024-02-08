@@ -69,10 +69,6 @@ const tourSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    summary: {
-      type: String,
-      trim: true,
-    },
     imageCover: {
       type: String,
       required: [true, 'A tour must have a cover image'],
@@ -107,10 +103,11 @@ tourSchema.pre('save', function (next) {
   // console.log(this.slug);
   next(); // to call the next middleware in the stack
 });
-tourSchema.post('save', function (doc, next) {
-  console.log(doc);
-  next();
-});
+
+// tourSchema.post('save', function (doc, next) {
+//   console.log(doc);
+//   next();
+// });
 
 // Query Middleware
 tourSchema.pre(/^find/, function (next) {
