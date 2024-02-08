@@ -54,6 +54,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteMe = catchAsync(async (req, res, next) => {
+  // We are not deleting the user from the db, just making them inactive
   await User.findByIdAndUpdate(req.user.id, { active: false });
 
   res.status(204).json({
