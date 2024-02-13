@@ -12,9 +12,10 @@
     "no-param-reassign": "off",
     "no-return-await": "off",
     "no-underscore-dangle": "off",
-    "no-unused-variable": [true, { "ignore-pattern": "^_" }],
     "class-methods-use-this": "off",
+    "import/newline-after-import": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }]
+    // "no-unused-variable": [true, { "ignore-pattern": "^_" }],
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "req|res|next|val" }]
   }
 }
