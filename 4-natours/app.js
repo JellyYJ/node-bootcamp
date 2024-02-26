@@ -6,6 +6,7 @@ const app = express();
 const morgan = require('morgan');
 const rateLimit = this.require('express-rate-limit');
 
+const helmet = require('helmet');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 // require the routes we defined
@@ -13,14 +14,18 @@ const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 
 /**
- * Middleware
+ * Global Middleware
  */
+// Set security HTTP headers
+app.use(helmet());
+
 // only happen when the app is in development
 if (process.env.NODE_ENV === 'development') {
   // logger middleware
   app.use(morgan('dev'));
 }
 
+// Limit requests from the same API
 const limiter = rateLimit({
   max: 100,
   windowMs: 60 * 60 * 1000, // an hour
@@ -28,7 +33,9 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+// Body parser, reading data from body into req.body
 app.use(express.json());
+
 // Serve static files from the 'public' directory located in the same directory as this server file.
 app.use(express.static(`${__dirname}/public`));
 
