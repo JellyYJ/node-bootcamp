@@ -16,7 +16,6 @@ const userRouter = require('./routes/userRoutes');
 /**
  * Global Middleware
  */
-
 // Set security HTTP headers
 app.use(helmet());
 
@@ -36,9 +35,10 @@ app.use('/api', limiter);
 app.use(express.json());
 
 // Data sanitisation against NoSQL query injection
-// app.use(mongoSanitize());
+app.use(mongoSanitize());
 
-// Data sanitisation against XSS
+// Data sanitisation against malicious HTML input
+app.use(xss());
 
 // Serve static files from the 'public' directory located in the same directory as this server file.
 app.use(express.static(`${__dirname}/public`));
