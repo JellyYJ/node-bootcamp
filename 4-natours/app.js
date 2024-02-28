@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const hpp = require('hpp');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -39,6 +40,20 @@ app.use(mongoSanitize());
 
 // Data sanitisation against malicious HTML input
 app.use(xss());
+
+// Prevent parameter pollution(should be used at the end, since it is for cleairng the query)
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingsQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
 
 // Serve static files from the 'public' directory located in the same directory as this server file.
 app.use(express.static(`${__dirname}/public`));
