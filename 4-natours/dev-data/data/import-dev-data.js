@@ -30,7 +30,8 @@ mongoose
 // Read JSON file
 // need to use the below path instead of:'./tours-simple.json' or 'tours-simple.json'
 const tours = JSON.parse(
-  fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
+  // fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
+  fs.readFileSync(`${__dirname}/tours.json`, 'utf-8')
 );
 // console.log(tours); // test if the file is read
 

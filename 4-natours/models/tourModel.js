@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const slugify = require('slugify');
+// const User = require('./userModel');
 // const validator = require('validator');
 
 /** BEGIN WITH THE SIMPLE TOUR DATA */
@@ -83,6 +84,27 @@ const tourSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+    startLocation: {
+      // GeoJSON
+      // we only want the geo loctaion be Point
+      type: { type: String, defult: 'Point', enum: ['Point'] },
+      coordinates: [Number], // accepting an array of numbers
+      address: String,
+      description: String,
+      day: Number,
+    },
+
+    location: {
+      type: { type: String, defult: 'Point', enum: ['Point'] },
+      coordinates: [Number],
+      address: String,
+      description: String,
+      day: Number,
+    },
+
+    // guides: Array, // embedded
+    guides: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
   },
   {
     toJSON: { virtuals: true },
@@ -103,6 +125,13 @@ tourSchema.pre('save', function (next) {
   // console.log(this.slug);
   next(); // to call the next middleware in the stack
 });
+
+// Emdedded guides (NOT IN USE, since we are using reference)
+// tourSchema.pre('save', async function (next) {
+//   const guidesPromises = this.guides.map(async (id) => await User.findById(id)); // usage of async!
+//   this.guides = await Promise.all(guidesPromises);
+//   next();
+// });
 
 // tourSchema.post('save', function (doc, next) {
 //   console.log(doc);
