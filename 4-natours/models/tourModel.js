@@ -140,10 +140,11 @@ tourSchema.pre('save', function (next) {
 
 // Query Middleware
 tourSchema.pre(/^find/, function (next) {
-  this.find({ secreTour: { $ne: true } });
+  this.find({ secretTour: { $ne: true } });
   this.start = Date.now();
   next();
 });
+
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds`); // see how long it takes to run a query
   // console.log(docs);
@@ -160,7 +161,7 @@ tourSchema.pre(/^find/, function (next) {
 
 // Aggregation Middleware
 tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secreTour: { $ne: true } } });
+  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
   console.log(this.pipeline());
   next();
 });
