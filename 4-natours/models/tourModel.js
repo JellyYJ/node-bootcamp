@@ -134,7 +134,7 @@ tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
 });
 
-// virtual populate, !! need to specify the name of the fields
+// Virtual populate, !! need to specify the name of the fields
 tourSchema.virtual('reviews', {
   ref: 'Review', // specifies the model that this virtual property is referencing
   foreignField: 'tour', // specifies the field in the referenced model(reviews)
