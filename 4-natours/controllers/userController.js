@@ -2,6 +2,7 @@ const User = require('../models/userModel');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
+const factory = require('./handlerFactory');
 
 // Check for allowed objects
 const filterObj = (obj, ...allowedFields) => {
@@ -82,9 +83,5 @@ exports.updateUser = (req, res) => {
     messgae: 'this route is not yet defined',
   });
 };
-exports.deleteUser = (req, res) => {
-  res.status(500).json({
-    status: 'error',
-    messgae: 'this route is not yet defined',
-  });
-};
+
+exports.deleteUser = factory.deleteOne(User);
