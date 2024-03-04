@@ -2,7 +2,10 @@ const Review = require('../models/reviewModel.js');
 const catchAsync = require('../utils/catchAsync.js');
 
 exports.getAllReviews = catchAsync(async (req, res, next) => {
-  const reviews = await Review.find();
+  let filter = {};
+  if (req.params.tourId) filter = { tour: req.params.tourId }; // allowing to get all reviews for a specific tour
+
+  const reviews = await Review.find(filter);
   if (!reviews) {
     return next(new AppError('No review found'));
   }
