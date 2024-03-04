@@ -104,8 +104,23 @@ const tourSchema = new mongoose.Schema(
     },
 
     // guides: Array, // embedded
-    guides: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
+    guides: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+
+    // We do not want this, instead we implement virtual populate
+    // The reason we do not want reviews here is a single tour can get many reviews, we do not want this child to grow indefinitely
+    // reviews: [
+    //   {
+    //     type: mongoose.Schema.ObjectId,
+    //     ref: 'Review',
+    //   },
+    // ],
   },
+
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
@@ -117,6 +132,13 @@ const tourSchema = new mongoose.Schema(
 // also it is not a good practice to build this in the controller
 tourSchema.virtual('durationWeeks').get(function () {
   return this.duration / 7;
+});
+
+// virtual populate, !! need to specify the name of the fields
+tourSchema.virtual('reviews', {
+  ref: 'Review', // specifies the model that this virtual property is referencing
+  foreignField: 'tour', // specifies the field in the referenced model(reviews)
+  localField: '_id', // specifies the field in this model(tour) that holds the reference to reviews
 });
 
 // Document Middleware: runs before .save() and .create()
