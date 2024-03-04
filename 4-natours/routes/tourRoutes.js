@@ -7,6 +7,8 @@ const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
 const reviewController = require('../controllers/reviewController');
 
+const reviewRouter = require('../routes/reviewRoutes');
+
 // checkID middleware function (no longer needed))
 // router.param('id', tourController.checkID);
 
@@ -37,16 +39,7 @@ router
     tourController.deleteTour
   );
 
-// Example:
-// POST /tour/234fad4/reviews
-// GET  /tour/234fad4/reviews
-// GET  /tour/234fad4/reviews
-router
-  .route('/:tourId/reviews')
-  .post(
-    authController.protect,
-    authController.restrictTo('user'),
-    reviewController.createReview
-  );
+// Merge params
+router.use('/:tourId/reviews', reviewRouter);
 
 module.exports = router;
