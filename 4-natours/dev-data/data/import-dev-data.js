@@ -5,6 +5,8 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const Tour = require('./../../models/tourModel');
+const User = require('./../../models/userModel');
+const Review = require('./../../models/reviewModel');
 
 dotenv.config({ path: './config.env' });
 
@@ -28,35 +30,41 @@ mongoose
   });
 
 // Read JSON file
-// need to use the below path instead of:'./tours-simple.json' or 'tours-simple.json'
 const tours = JSON.parse(
   // fs.readFileSync(`${__dirname}/tours-simple.json`, 'utf-8')
   fs.readFileSync(`${__dirname}/tours.json`, 'utf-8')
 );
-// console.log(tours); // test if the file is read
+const users = JSON.parse(fs.readFileSync(`${__dirname}/users.json`, 'utf-8'));
+const reviews = JSON.parse(
+  fs.readFileSync(`${__dirname}/reviews.json`, 'utf-8')
+);
 
-// Import data into DB
+// Import data into DB: node dev-data/data/import-dev-data.js import
 const importData = async () => {
   try {
     // .create accepts an array of JavaScript objects
     await Tour.create(tours);
-    console.log('Data imported');
-    process.exit();
+    await User.create(users, { validateBeforeSave: false }); // need to turn off the validation for creating users
+    await Review.create(reviews);
+    console.log('Data successfully loaded!');
   } catch (err) {
     console.log(err);
   }
+  process.exit();
 };
 
-// Delete all data from DB
+// Delete all data from DB: node dev-data/data/import-dev-data.js delete
+// before importing new data, remeber to first delete!!
 const deleteData = async () => {
   try {
-    // .create accpects an array of javaScript objects
     await Tour.deleteMany();
-    console.log('Data deleted');
-    process.exit();
+    await User.deleteMany();
+    await Review.deleteMany();
+    console.log('Data successfully deleted!');
   } catch (err) {
     console.log(err);
   }
+  process.exit();
 };
 
 // console.log(process.argv);
