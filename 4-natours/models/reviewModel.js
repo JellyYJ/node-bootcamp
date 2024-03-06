@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Tour = require('./tourModel');
 
 const reviewSchema = new mongoose.Schema(
   {
@@ -46,6 +47,63 @@ reviewSchema.pre(/^find/, function (next) {
     select: 'name photo',
   });
 
+  next();
+});
+
+// reviewSchema.statics.calcAverageRatings = async function (tourId) {
+//   const stats = await this.aggregate([
+//     {
+//       $match: { tour: tourId },
+//     },
+//     {
+//       $group: {
+//         _id: '$tour',
+//         nRating: { $sum: 1 },
+//         avgRating: { $avg: '$rating' },
+//       },
+//     },
+//   ]);
+//   // console.log(stats);
+//   await Tour.findByIdAndUpdate(tourId, {
+//     ratingsQuantity: stats[0].nRating,
+//     ratingsAverage: stats[0].avgRating,
+//   });
+// };
+
+// Calculating average ratings
+reviewSchema.statics.calcAverageRatings = async function (tourId) {
+  // this always points to the MODEL
+  // pass in all stages we want in aggregate
+  const stats = await this.aggregate([
+    {
+      $match: { tour: tourId },
+    },
+    {
+      $group: {
+        _id: '$tour',
+        nRating: { $sum: 1 },
+        avgRating: { $avg: '$rating' },
+      },
+    },
+  ]);
+  // console.log(stats);
+
+  if (stats.length > 0) {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: stats[0].nRating,
+      ratingsAverage: stats[0].avgRating,
+    });
+  } else {
+    await Tour.findByIdAndUpdate(tourId, {
+      ratingsQuantity: 0,
+      ratingsAverage: 4.5,
+    });
+  }
+};
+
+reviewSchema.pre('save', function (next) {
+  // this points to current review(doc), so its constructor is the model that creates this doc
+  this.constructor.calcAverageRatings(this.tour);
   next();
 });
 
