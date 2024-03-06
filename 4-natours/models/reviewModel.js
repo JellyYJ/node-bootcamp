@@ -101,10 +101,9 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   }
 };
 
-reviewSchema.pre('save', function (next) {
+reviewSchema.post('save', function (next) {
   // this points to current review(doc), so its constructor is the model that creates this doc
   this.constructor.calcAverageRatings(this.tour);
-  next();
 });
 
 const Review = mongoose.model('Review', reviewSchema);
