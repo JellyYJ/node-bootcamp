@@ -86,7 +86,7 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
       },
     },
   ]);
-  // console.log(stats);
+  console.log(stats);
 
   if (stats.length > 0) {
     await Tour.findByIdAndUpdate(tourId, {
@@ -101,9 +101,21 @@ reviewSchema.statics.calcAverageRatings = async function (tourId) {
   }
 };
 
+// CONFUSING PART!!!
 reviewSchema.post('save', function (next) {
   // this points to current review(doc), so its constructor is the model that creates this doc
   this.constructor.calcAverageRatings(this.tour);
+});
+
+// findOneAndDelete and findOneAndUpdate
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.r = await this.findOne(); // create a property on this review
+  next();
+});
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  // this.r = await this.findOne(); // DOES NOT WORK HERE, since yhe query has already executed
+  this.r.constructor.calcAverageRatings(this.r.tour);
 });
 
 const Review = mongoose.model('Review', reviewSchema);
