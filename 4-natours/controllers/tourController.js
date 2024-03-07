@@ -6,40 +6,13 @@ const factory = require('./handlerFactory');
 /**
  * Handlers for Tour
  */
-// // convert the json format to an array of js objects (only for testing)
-// const tours = JSON.parse(
-//   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
-// );
 
-// // checkID middleware function (no longer needed, only for showing middleware usage)
-// exports.checkID = (req, res, next, val) => {
-//   console.log(`Tour id: ${val}`);
-
-//   if (req.params.id * 1 > tours.length) {
-//     return res.status(404).json({
-//       status: 'fail',
-//       massage: 'Ivalid Id',
-//     });
-//   }
-//   next();
-// };
-
-// checkBody middleware function (no longer needed, only for showing middleware usage)
-// exports.checkBody = (req, res, next) => {
-//   if (!req.body.name || !req.body.price) {
-//     return res.status(400).json({
-//       status: 'fail',
-//       message: 'Missing name or price',
-//     });
-//   }
-//   next();
-// };
-
-/**
- * GET
- * 1. get all tours
- * 2. get one tour by id
- */
+// Factory
+exports.createTour = factory.createOne(Tour);
+exports.updateTour = factory.updateOne(Tour);
+exports.deleteTour = factory.deleteOne(Tour);
+exports.getTour = factory.getOne(Tour, { path: 'reviews' }); // can also specify 'select' for specific fields that want to be populated, see tourModel for example
+exports.getAllTours = factory.getAll(Tour);
 
 // 5) Aliasing - using middleware
 exports.aliasTopTours = (req, res, next) => {
@@ -159,9 +132,44 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
   });
 });
 
-// Factory
-exports.createTour = factory.createOne(Tour);
-exports.updateTour = factory.updateOne(Tour);
-exports.deleteTour = factory.deleteOne(Tour);
-exports.getTour = factory.getOne(Tour, { path: 'reviews' }); // can also specify 'select' for specific fields that want to be populated, see tourModel for example
-exports.getAllTours = factory.getAll(Tour);
+// Get distances from a certain point to all tours
+exports.getDistances = catchAsync(async (req, res, next) => {
+  const { latlng, unit } = req.params;
+  const [lat, lng] = latlng.split(',');
+  const muptiplier = unit === 'mi' ? 0.000621371 : 0.001;
+
+  if (!lat || !lng) {
+    next(
+      new AppError(
+        'Please provide latitude and longitude in the format lat,lng.',
+        400
+      )
+    );
+  }
+
+  const distances = await Tour.aggregate([
+    {
+      $geoNear: {
+        near: {
+          type: 'Point',
+          coordinates: [lng * 1, lat * 1],
+        },
+        distanceField: 'distance',
+        distanceMultiplier: muptiplier,
+      },
+    },
+    {
+      $project: {
+        distance: 1,
+        name: 1,
+      },
+    },
+  ]);
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: distances,
+    },
+  });
+});

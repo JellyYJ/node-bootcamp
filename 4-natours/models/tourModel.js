@@ -183,7 +183,7 @@ tourSchema.pre(/^find/, function (next) {
   next();
 });
 
-// Aggregation Middleware
+// Aggregation Middleware - this would mess with the aggredation in tourController for calculating distances, so comment out
 // tourSchema.pre('aggregate', function (next) {
 //   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
 //   console.log(this.pipeline());
