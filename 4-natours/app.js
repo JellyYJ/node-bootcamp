@@ -73,7 +73,7 @@ app.use((req, res, next) => {
   // console.log('Hello from the middleware');
   req.requestTime = new Date().toISOString();
   // console.log(req.headers);
-  console.log(req.cookies);
+  // console.log(req.cookies);
 
   // if don't call next func, the cycle will be stuck, can never get the response
   next();

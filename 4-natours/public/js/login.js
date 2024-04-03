@@ -1,5 +1,4 @@
 /* eslintr-disable */
-
 const login = async (email, password) => {
   try {
     const res = await axios({
@@ -12,7 +11,7 @@ const login = async (email, password) => {
     });
     console.log(res);
   } catch (err) {
-    console.log(err);
+    console.log(err.response.data);
   }
 };
 
