@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -39,7 +40,10 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
-app.use(express.json());
+// Body parser
+app.use(express.json({ limit: '10kb' }));
+// Cookie parser
+app.use(cookieParser());
 
 // Data sanitisation against NoSQL query injection
 app.use(mongoSanitize());
@@ -64,19 +68,16 @@ app.use(
 // Serve static files from the 'public' directory located in the same directory as this server file.
 app.use(express.static(`${__dirname}/public`));
 
+// TEST MIDDLEWARE AREA
 app.use((req, res, next) => {
+  // console.log('Hello from the middleware');
   req.requestTime = new Date().toISOString();
   // console.log(req.headers);
+  console.log(req.cookies);
 
+  // if don't call next func, the cycle will be stuck, can never get the response
   next();
 });
-
-// Just for showing the importance of next()
-// app.use((req, res, next) => {
-//   console.log('Hello from the middleware');
-//   // if don't call next func, the cycle will be stuck, can never get the response
-//   next();
-// });
 
 /**
  * Routes
