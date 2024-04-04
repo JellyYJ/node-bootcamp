@@ -110,14 +110,16 @@ exports.protect = catchAsync(async (req, res, next) => {
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
     return next(
-      new AppError('The user beloging to this token does not exist', 401)
+      new AppError('The user belonging to this token does not exist', 401)
     );
   }
 
   // 4) Check if user changed pwd after the token was issued
   // iat: issued at
   if (currentUser.changedPasswordAfter(decoded.iat)) {
-    return next(new AppError('User has changed password, please login again'));
+    return next(
+      new AppError('User recently changed password! Please log in again.', 401)
+    );
   }
 
   // Only grant permission to get tours when all 4 steps are passed
