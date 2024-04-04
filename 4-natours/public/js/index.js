@@ -1,6 +1,8 @@
 /* eslintr-disable */
 import { login } from './login';
 import { displayMap } from './mapbox';
+import 'core-js';
+// import 'regenerator-runtime';
 
 // DOM ELEMENTS
 const mapBox = document.getElementById('map');
