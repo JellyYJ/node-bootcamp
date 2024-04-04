@@ -25,7 +25,7 @@ export const displayMap = (locations) => {
     el.className = 'marker';
 
     // Add marker
-    const marker = new mapboxgl.Marker({
+    new mapboxgl.Marker({
       element: el,
       anchor: 'bottom',
     })

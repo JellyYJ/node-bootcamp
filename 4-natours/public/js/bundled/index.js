@@ -584,14 +584,23 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 
 },{}],"4uyBp":[function(require,module,exports) {
 /* eslintr-disable */ var _login = require("./login");
-document.querySelector(".form").addEventListener("submit", (e)=>{
+var _mapbox = require("./mapbox");
+// DOM ELEMENTS
+const mapBox = document.getElementById("map");
+const loginForm = document.querySelector(".form--login");
+// DELEGATION
+if (mapBox) {
+    const locations = JSON.parse(mapBox === null || mapBox === void 0 ? void 0 : mapBox.dataset.locations);
+    (0, _mapbox.displayMap)(locations);
+}
+if (loginForm) loginForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     (0, _login.login)(email, password);
 });
 
-},{"./login":"qZEOz"}],"qZEOz":[function(require,module,exports) {
+},{"./login":"qZEOz","./mapbox":"cr3Up"}],"qZEOz":[function(require,module,exports) {
 /* eslintr-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "login", ()=>login);
@@ -646,6 +655,55 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}]},["kLubF","4uyBp"], "4uyBp", "parcelRequire11c7")
+},{}],"cr3Up":[function(require,module,exports) {
+/* eslintr-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "displayMap", ()=>displayMap);
+const displayMap = (locations)=>{
+    mapboxgl.accessToken = "pk.eyJ1IjoieWlqaWEwMSIsImEiOiJjbHNhbGV6dnAwM3VqMmtuemhmMGhndmRnIn0.5znqvxfRGEXcognmqmBP_A";
+    var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/yijia01/clujre5tc00q601r5emb79p6e",
+        scrollZoom: false
+    });
+    const bounds = new mapboxgl.LngLatBounds();
+    // set globe fog on load
+    map.on("style.load", ()=>{
+        map.setFog({});
+    });
+    let popup;
+    locations.forEach((loc)=>{
+        // Create marker
+        const el = document.createElement("div");
+        el.className = "marker";
+        // Add marker
+        new mapboxgl.Marker({
+            element: el,
+            anchor: "bottom"
+        }).setLngLat(loc.coordinates).addTo(map);
+        // Add popup on marker hover
+        el.addEventListener("mouseenter", ()=>{
+            popup = new mapboxgl.Popup({
+                offset: 30
+            }).setLngLat(loc.coordinates).setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`).addTo(map);
+        });
+        // Remove popup when mouse leaves marker
+        el.addEventListener("mouseleave", ()=>{
+            if (popup) popup.remove();
+        });
+        // Extend map bounds to include current location
+        bounds.extend(loc.coordinates);
+    });
+    map.fitBounds(bounds, {
+        padding: {
+            top: 200,
+            bottom: 150,
+            left: 100,
+            right: 100
+        }
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}]},["kLubF","4uyBp"], "4uyBp", "parcelRequire11c7")
 
 //# sourceMappingURL=index.js.map
