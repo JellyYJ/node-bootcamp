@@ -1,4 +1,6 @@
 /* eslintr-disable */
+import { showAlert } from './alerts';
+
 export const login = async (email, password) => {
   try {
     const res = await axios({
@@ -11,12 +13,12 @@ export const login = async (email, password) => {
     });
 
     if (res.data.status === 'success') {
-      alert('Logged in successful');
+      showAlert('success', 'Logged in successfully!');
       window.setTimeout(() => {
         location.assign('/');
       }, 1000);
     }
   } catch (err) {
-    console.log(err.response.data);
+    showAlert('error', err.response.data.message);
   }
 };
