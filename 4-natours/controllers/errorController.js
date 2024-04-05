@@ -100,7 +100,7 @@ module.exports = (err, req, res, next) => {
   } else if (process.env.NODE_ENV === 'production') {
     // NOT WORKING
     let error = { ...err };
-
+    // error.message = err.message; // NOT IN USE for mine, Jonas got this probelem of not showing correct error message
     if (error.name === 'CastError') {
       error = handleCastErrorDB(error);
     }
