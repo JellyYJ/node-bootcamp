@@ -7,11 +7,11 @@ const AppError = require('../utils/appError');
 const sendEmail = require('../utils/email');
 
 // Create token
-const signToken = (id) =>
-  jwt.sign({ id }, process.env.JWT_SECRET, {
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
-
+};
 const createSendToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
@@ -45,7 +45,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
     name: req.body.name,
     email: req.body.email,
-    role: req.body.role,
     password: req.body.password,
     passwordConfirm: req.body.passwordConfirm,
   });
@@ -67,9 +66,9 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('The email is not regiestered', 401));
   }
 
-  const correct = user.correctPassword(password, user.password);
-  // console.log('user.password', user.password);
-  // console.log(password);
+  const correct = await user.correctPassword(password, user.password);
+  console.log('user.password:', user.password);
+  console.log('Input:', password);
   if (!correct) {
     return next(new AppError('Incorrect password, please try again', 401));
   }
