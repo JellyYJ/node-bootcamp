@@ -66,7 +66,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError('The email is not regiestered', 401));
   }
 
-  const correct = user.correctPassword(password, user.password);
+  const correct = await user.correctPassword(password, user.password);
   // console.log('user.password:', user.password);
   // console.log('Input:', password);
   // console.log(correct);
