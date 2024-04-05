@@ -680,12 +680,14 @@ var _esnextWeakSetFromJs = require("core-js/modules/esnext.weak-set.from.js");
 var _esnextWeakSetOfJs = require("core-js/modules/esnext.weak-set.of.js");
 var _webQueueMicrotaskJs = require("core-js/modules/web.queue-microtask.js");
 var _login = require("./login");
+var _updateSettings = require("./updateSettings");
 var _mapbox = require("./mapbox");
 // import 'regenerator-runtime';
 // DOM ELEMENTS
 const mapBox = document.getElementById("map");
 const loginForm = document.querySelector(".form--login");
 const logOutBtn = document.querySelector(".nav__el--logout");
+const userDataForm = document.querySelector(".form-user-data");
 // DELEGATION
 if (mapBox) {
     const locations = JSON.parse(mapBox === null || mapBox === void 0 ? void 0 : mapBox.dataset.locations);
@@ -698,144 +700,14 @@ if (loginForm) loginForm.addEventListener("submit", (e)=>{
     (0, _login.login)(email, password);
 });
 if (logOutBtn) logOutBtn.addEventListener("click", (0, _login.logout));
+if (userDataForm) userDataForm.addEventListener("submit", (e)=>{
+    e.preventDefault();
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    (0, _updateSettings.updateSettings)(name, email);
+});
 
-},{"./login":"qZEOz","./mapbox":"cr3Up","core-js/modules/es.symbol.description.js":"hgu4d","core-js/modules/es.array.flat.js":"lRn13","core-js/modules/es.array.flat-map.js":"gM669","core-js/modules/es.array.sort.js":"PLp5i","core-js/modules/es.array.unscopables.flat.js":"88nm6","core-js/modules/es.array.unscopables.flat-map.js":"2tF7j","core-js/modules/es.math.hypot.js":"bPuQ3","core-js/modules/es.object.from-entries.js":"98OZX","core-js/modules/es.promise.js":"5t0IQ","core-js/modules/es.promise.finally.js":"c5ALq","core-js/modules/es.regexp.flags.js":"kZ4xK","core-js/modules/es.typed-array.set.js":"8AABK","core-js/modules/es.typed-array.sort.js":"gqGeA","core-js/modules/esnext.aggregate-error.js":"1AJZx","core-js/modules/esnext.array.last-index.js":"5oZNB","core-js/modules/esnext.array.last-item.js":"hrX0c","core-js/modules/esnext.composite-key.js":"bscj7","core-js/modules/esnext.composite-symbol.js":"b7Ocj","core-js/modules/esnext.global-this.js":"9dMts","core-js/modules/esnext.map.delete-all.js":"2Xm9N","core-js/modules/esnext.map.every.js":"7Ql27","core-js/modules/esnext.map.filter.js":"crAI6","core-js/modules/esnext.map.find.js":"58IDv","core-js/modules/esnext.map.find-key.js":"epbe4","core-js/modules/esnext.map.from.js":"ipiVC","core-js/modules/esnext.map.group-by.js":"pZE9O","core-js/modules/esnext.map.includes.js":"dVVrF","core-js/modules/esnext.map.key-by.js":"dLCuY","core-js/modules/esnext.map.key-of.js":"5GYoV","core-js/modules/esnext.map.map-keys.js":"kRcnG","core-js/modules/esnext.map.map-values.js":"iODq7","core-js/modules/esnext.map.merge.js":"icCwh","core-js/modules/esnext.map.of.js":"6dCdG","core-js/modules/esnext.map.reduce.js":"1OLes","core-js/modules/esnext.map.some.js":"f48nI","core-js/modules/esnext.map.update.js":"gIxqM","core-js/modules/esnext.math.clamp.js":"i1sX1","core-js/modules/esnext.math.deg-per-rad.js":"hRhPt","core-js/modules/esnext.math.degrees.js":"5UYuj","core-js/modules/esnext.math.fscale.js":"kPyMQ","core-js/modules/esnext.math.iaddh.js":"5zpfp","core-js/modules/esnext.math.imulh.js":"81hw2","core-js/modules/esnext.math.isubh.js":"aM94g","core-js/modules/esnext.math.rad-per-deg.js":"6EDMz","core-js/modules/esnext.math.radians.js":"kQ2Xh","core-js/modules/esnext.math.scale.js":"1GmkN","core-js/modules/esnext.math.seeded-prng.js":"a80Ue","core-js/modules/esnext.math.signbit.js":"hn1sB","core-js/modules/esnext.math.umulh.js":"lG0sl","core-js/modules/esnext.number.from-string.js":"eUyWb","core-js/modules/esnext.observable.js":"bjnRK","core-js/modules/esnext.promise.all-settled.js":"bub4H","core-js/modules/esnext.promise.any.js":"8U8Zc","core-js/modules/esnext.promise.try.js":"lEvkz","core-js/modules/esnext.reflect.define-metadata.js":"aSqy1","core-js/modules/esnext.reflect.delete-metadata.js":"9LOhD","core-js/modules/esnext.reflect.get-metadata.js":"7MJ0J","core-js/modules/esnext.reflect.get-metadata-keys.js":"45R5S","core-js/modules/esnext.reflect.get-own-metadata.js":"5b2Ne","core-js/modules/esnext.reflect.get-own-metadata-keys.js":"j4zZB","core-js/modules/esnext.reflect.has-metadata.js":"ftl0u","core-js/modules/esnext.reflect.has-own-metadata.js":"djXaw","core-js/modules/esnext.reflect.metadata.js":"3k6Kq","core-js/modules/esnext.set.add-all.js":"flIMQ","core-js/modules/esnext.set.delete-all.js":"hujso","core-js/modules/esnext.set.difference.js":"jg53i","core-js/modules/esnext.set.every.js":"6pYq1","core-js/modules/esnext.set.filter.js":"gGtL0","core-js/modules/esnext.set.find.js":"b7ZUg","core-js/modules/esnext.set.from.js":"j0r86","core-js/modules/esnext.set.intersection.js":"5QCx1","core-js/modules/esnext.set.is-disjoint-from.js":"6TMtX","core-js/modules/esnext.set.is-subset-of.js":"gulbE","core-js/modules/esnext.set.is-superset-of.js":"haory","core-js/modules/esnext.set.join.js":"dKufF","core-js/modules/esnext.set.map.js":"eGyHN","core-js/modules/esnext.set.of.js":"kqdfr","core-js/modules/esnext.set.reduce.js":"3yIcy","core-js/modules/esnext.set.some.js":"kZGsf","core-js/modules/esnext.set.symmetric-difference.js":"lrh5O","core-js/modules/esnext.set.union.js":"5SOHG","core-js/modules/esnext.string.at.js":"9nntW","core-js/modules/esnext.string.code-points.js":"irfeS","core-js/modules/esnext.string.match-all.js":"ih4fS","core-js/modules/esnext.string.replace-all.js":"1Y9vv","core-js/modules/esnext.symbol.dispose.js":"ij9Mu","core-js/modules/esnext.symbol.observable.js":"5cS6g","core-js/modules/esnext.symbol.pattern-match.js":"aoEXY","core-js/modules/esnext.weak-map.delete-all.js":"32cJW","core-js/modules/esnext.weak-map.from.js":"14Isu","core-js/modules/esnext.weak-map.of.js":"kXqsi","core-js/modules/esnext.weak-set.add-all.js":"cjD98","core-js/modules/esnext.weak-set.delete-all.js":"3D7zU","core-js/modules/esnext.weak-set.from.js":"iED1M","core-js/modules/esnext.weak-set.of.js":"iMV60","core-js/modules/web.queue-microtask.js":"eRNJq"}],"qZEOz":[function(require,module,exports) {
-/* eslintr-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "login", ()=>login);
-parcelHelpers.export(exports, "logout", ()=>logout);
-var _alerts = require("./alerts");
-const login = async (email, password)=>{
-    console.log(email, password);
-    try {
-        const res = await axios({
-            method: "POST",
-            url: "http://127.0.0.1:3000/api/v1/users/login",
-            data: {
-                email,
-                password
-            }
-        });
-        if (res.data.status === "success") {
-            (0, _alerts.showAlert)("success", "Logged in successfully!");
-            window.setTimeout(()=>{
-                location.assign("/");
-            }, 1000);
-        }
-    } catch (err) {
-        (0, _alerts.showAlert)("error", err.response.data.message);
-    }
-};
-const logout = async ()=>{
-    try {
-        const res = await axios({
-            method: "GET",
-            url: "http://127.0.0.1:3000/api/v1/users/logout"
-        });
-        res.data.status = "success";
-        location.reload(true);
-    } catch (err) {
-        console.log(err.response);
-        (0, _alerts.showAlert)("error", "Error logging out! Try again.");
-    }
-};
-
-},{"./alerts":"j4hQk","@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}],"j4hQk":[function(require,module,exports) {
-/* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "hideAlert", ()=>hideAlert);
-parcelHelpers.export(exports, "showAlert", ()=>showAlert);
-const hideAlert = ()=>{
-    const el = document.querySelector(".alert");
-    if (el) el.parentElement.removeChild(el);
-};
-const showAlert = (type, msg)=>{
-    hideAlert();
-    const markup = `<div class="alert alert--${type}">${msg}</div>`;
-    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
-    window.setTimeout(hideAlert, 5000);
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}],"5Birt":[function(require,module,exports) {
-exports.interopDefault = function(a) {
-    return a && a.__esModule ? a : {
-        default: a
-    };
-};
-exports.defineInteropFlag = function(a) {
-    Object.defineProperty(a, "__esModule", {
-        value: true
-    });
-};
-exports.exportAll = function(source, dest) {
-    Object.keys(source).forEach(function(key) {
-        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
-        Object.defineProperty(dest, key, {
-            enumerable: true,
-            get: function() {
-                return source[key];
-            }
-        });
-    });
-    return dest;
-};
-exports.export = function(dest, destName, get) {
-    Object.defineProperty(dest, destName, {
-        enumerable: true,
-        get: get
-    });
-};
-
-},{}],"cr3Up":[function(require,module,exports) {
-/* eslintr-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "displayMap", ()=>displayMap);
-const displayMap = (locations)=>{
-    mapboxgl.accessToken = "pk.eyJ1IjoieWlqaWEwMSIsImEiOiJjbHNhbGV6dnAwM3VqMmtuemhmMGhndmRnIn0.5znqvxfRGEXcognmqmBP_A";
-    var map = new mapboxgl.Map({
-        container: "map",
-        style: "mapbox://styles/yijia01/clujre5tc00q601r5emb79p6e",
-        scrollZoom: false
-    });
-    const bounds = new mapboxgl.LngLatBounds();
-    // set globe fog on load
-    map.on("style.load", ()=>{
-        map.setFog({});
-    });
-    let popup;
-    locations.forEach((loc)=>{
-        // Create marker
-        const el = document.createElement("div");
-        el.className = "marker";
-        // Add marker
-        new mapboxgl.Marker({
-            element: el,
-            anchor: "bottom"
-        }).setLngLat(loc.coordinates).addTo(map);
-        // Add popup on marker hover
-        el.addEventListener("mouseenter", ()=>{
-            popup = new mapboxgl.Popup({
-                offset: 30
-            }).setLngLat(loc.coordinates).setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`).addTo(map);
-        });
-        // Remove popup when mouse leaves marker
-        el.addEventListener("mouseleave", ()=>{
-            if (popup) popup.remove();
-        });
-        // Extend map bounds to include current location
-        bounds.extend(loc.coordinates);
-    });
-    map.fitBounds(bounds, {
-        padding: {
-            top: 200,
-            bottom: 150,
-            left: 100,
-            right: 100
-        }
-    });
-};
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}],"hgu4d":[function(require,module,exports) {
+},{"core-js/modules/es.symbol.description.js":"hgu4d","core-js/modules/es.array.flat.js":"lRn13","core-js/modules/es.array.flat-map.js":"gM669","core-js/modules/es.array.sort.js":"PLp5i","core-js/modules/es.array.unscopables.flat.js":"88nm6","core-js/modules/es.array.unscopables.flat-map.js":"2tF7j","core-js/modules/es.math.hypot.js":"bPuQ3","core-js/modules/es.object.from-entries.js":"98OZX","core-js/modules/es.promise.js":"5t0IQ","core-js/modules/es.promise.finally.js":"c5ALq","core-js/modules/es.regexp.flags.js":"kZ4xK","core-js/modules/es.typed-array.set.js":"8AABK","core-js/modules/es.typed-array.sort.js":"gqGeA","core-js/modules/esnext.aggregate-error.js":"1AJZx","core-js/modules/esnext.array.last-index.js":"5oZNB","core-js/modules/esnext.array.last-item.js":"hrX0c","core-js/modules/esnext.composite-key.js":"bscj7","core-js/modules/esnext.composite-symbol.js":"b7Ocj","core-js/modules/esnext.global-this.js":"9dMts","core-js/modules/esnext.map.delete-all.js":"2Xm9N","core-js/modules/esnext.map.every.js":"7Ql27","core-js/modules/esnext.map.filter.js":"crAI6","core-js/modules/esnext.map.find.js":"58IDv","core-js/modules/esnext.map.find-key.js":"epbe4","core-js/modules/esnext.map.from.js":"ipiVC","core-js/modules/esnext.map.group-by.js":"pZE9O","core-js/modules/esnext.map.includes.js":"dVVrF","core-js/modules/esnext.map.key-by.js":"dLCuY","core-js/modules/esnext.map.key-of.js":"5GYoV","core-js/modules/esnext.map.map-keys.js":"kRcnG","core-js/modules/esnext.map.map-values.js":"iODq7","core-js/modules/esnext.map.merge.js":"icCwh","core-js/modules/esnext.map.of.js":"6dCdG","core-js/modules/esnext.map.reduce.js":"1OLes","core-js/modules/esnext.map.some.js":"f48nI","core-js/modules/esnext.map.update.js":"gIxqM","core-js/modules/esnext.math.clamp.js":"i1sX1","core-js/modules/esnext.math.deg-per-rad.js":"hRhPt","core-js/modules/esnext.math.degrees.js":"5UYuj","core-js/modules/esnext.math.fscale.js":"kPyMQ","core-js/modules/esnext.math.iaddh.js":"5zpfp","core-js/modules/esnext.math.imulh.js":"81hw2","core-js/modules/esnext.math.isubh.js":"aM94g","core-js/modules/esnext.math.rad-per-deg.js":"6EDMz","core-js/modules/esnext.math.radians.js":"kQ2Xh","core-js/modules/esnext.math.scale.js":"1GmkN","core-js/modules/esnext.math.seeded-prng.js":"a80Ue","core-js/modules/esnext.math.signbit.js":"hn1sB","core-js/modules/esnext.math.umulh.js":"lG0sl","core-js/modules/esnext.number.from-string.js":"eUyWb","core-js/modules/esnext.observable.js":"bjnRK","core-js/modules/esnext.promise.all-settled.js":"bub4H","core-js/modules/esnext.promise.any.js":"8U8Zc","core-js/modules/esnext.promise.try.js":"lEvkz","core-js/modules/esnext.reflect.define-metadata.js":"aSqy1","core-js/modules/esnext.reflect.delete-metadata.js":"9LOhD","core-js/modules/esnext.reflect.get-metadata.js":"7MJ0J","core-js/modules/esnext.reflect.get-metadata-keys.js":"45R5S","core-js/modules/esnext.reflect.get-own-metadata.js":"5b2Ne","core-js/modules/esnext.reflect.get-own-metadata-keys.js":"j4zZB","core-js/modules/esnext.reflect.has-metadata.js":"ftl0u","core-js/modules/esnext.reflect.has-own-metadata.js":"djXaw","core-js/modules/esnext.reflect.metadata.js":"3k6Kq","core-js/modules/esnext.set.add-all.js":"flIMQ","core-js/modules/esnext.set.delete-all.js":"hujso","core-js/modules/esnext.set.difference.js":"jg53i","core-js/modules/esnext.set.every.js":"6pYq1","core-js/modules/esnext.set.filter.js":"gGtL0","core-js/modules/esnext.set.find.js":"b7ZUg","core-js/modules/esnext.set.from.js":"j0r86","core-js/modules/esnext.set.intersection.js":"5QCx1","core-js/modules/esnext.set.is-disjoint-from.js":"6TMtX","core-js/modules/esnext.set.is-subset-of.js":"gulbE","core-js/modules/esnext.set.is-superset-of.js":"haory","core-js/modules/esnext.set.join.js":"dKufF","core-js/modules/esnext.set.map.js":"eGyHN","core-js/modules/esnext.set.of.js":"kqdfr","core-js/modules/esnext.set.reduce.js":"3yIcy","core-js/modules/esnext.set.some.js":"kZGsf","core-js/modules/esnext.set.symmetric-difference.js":"lrh5O","core-js/modules/esnext.set.union.js":"5SOHG","core-js/modules/esnext.string.at.js":"9nntW","core-js/modules/esnext.string.code-points.js":"irfeS","core-js/modules/esnext.string.match-all.js":"ih4fS","core-js/modules/esnext.string.replace-all.js":"1Y9vv","core-js/modules/esnext.symbol.dispose.js":"ij9Mu","core-js/modules/esnext.symbol.observable.js":"5cS6g","core-js/modules/esnext.symbol.pattern-match.js":"aoEXY","core-js/modules/esnext.weak-map.delete-all.js":"32cJW","core-js/modules/esnext.weak-map.from.js":"14Isu","core-js/modules/esnext.weak-map.of.js":"kXqsi","core-js/modules/esnext.weak-set.add-all.js":"cjD98","core-js/modules/esnext.weak-set.delete-all.js":"3D7zU","core-js/modules/esnext.weak-set.from.js":"iED1M","core-js/modules/esnext.weak-set.of.js":"iMV60","core-js/modules/web.queue-microtask.js":"eRNJq","./login":"qZEOz","./updateSettings":"28JcJ","./mapbox":"cr3Up"}],"hgu4d":[function(require,module,exports) {
 // `Symbol.prototype.description` getter
 // https://tc39.es/ecma262/#sec-symbol.prototype.description
 "use strict";
@@ -8440,6 +8312,163 @@ $({
     }
 });
 
-},{"6f7278673cd963e5":"koDCM","6aa13a6bc9f9574a":"3WC9j","b80db4539abf09d9":"kMnY0","889c274f5e23b39":"k1vB2","15983ab5c2fbc059":"cETeD","c36112b7edfed618":"l6FFo","74b26aee0ae17038":"11UVh"}]},["kLubF","4uyBp"], "4uyBp", "parcelRequire11c7")
+},{"6f7278673cd963e5":"koDCM","6aa13a6bc9f9574a":"3WC9j","b80db4539abf09d9":"kMnY0","889c274f5e23b39":"k1vB2","15983ab5c2fbc059":"cETeD","c36112b7edfed618":"l6FFo","74b26aee0ae17038":"11UVh"}],"qZEOz":[function(require,module,exports) {
+/* eslintr-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "login", ()=>login);
+parcelHelpers.export(exports, "logout", ()=>logout);
+var _alerts = require("./alerts");
+const login = async (email, password)=>{
+    try {
+        const res = await axios({
+            method: "POST",
+            url: "http://127.0.0.1:3000/api/v1/users/login",
+            data: {
+                email,
+                password
+            }
+        });
+        if (res.data.status === "success") {
+            (0, _alerts.showAlert)("success", "Logged in successfully!");
+            window.setTimeout(()=>{
+                location.assign("/");
+            }, 1000);
+        }
+    } catch (err) {
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+const logout = async ()=>{
+    try {
+        const res = await axios({
+            method: "GET",
+            url: "http://127.0.0.1:3000/api/v1/users/logout"
+        });
+        res.data.status = "success";
+        location.reload(true);
+    } catch (err) {
+        console.log(err.response);
+        (0, _alerts.showAlert)("error", "Error logging out! Try again.");
+    }
+};
+
+},{"./alerts":"j4hQk","@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}],"j4hQk":[function(require,module,exports) {
+/* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "hideAlert", ()=>hideAlert);
+parcelHelpers.export(exports, "showAlert", ()=>showAlert);
+const hideAlert = ()=>{
+    const el = document.querySelector(".alert");
+    if (el) el.parentElement.removeChild(el);
+};
+const showAlert = (type, msg)=>{
+    hideAlert();
+    const markup = `<div class="alert alert--${type}">${msg}</div>`;
+    document.querySelector("body").insertAdjacentHTML("afterbegin", markup);
+    window.setTimeout(hideAlert, 5000);
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}],"5Birt":[function(require,module,exports) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, "__esModule", {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === "default" || key === "__esModule" || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"28JcJ":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
+var _alerts = require("./alerts");
+const updateSettings = async (name, email)=>{
+    console.log(name, email);
+    try {
+        const res = await axios({
+            method: "PATCH",
+            url: "http://127.0.0.1:3000/api/v1/users/updateMe",
+            data: {
+                name,
+                email
+            }
+        });
+        if (res.data.status === "success") (0, _alerts.showAlert)("success", "Update data sucessfully!");
+    } catch (err) {
+        (0, _alerts.showAlert)("error", err.response.data.message);
+    }
+};
+
+},{"./alerts":"j4hQk","@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}],"cr3Up":[function(require,module,exports) {
+/* eslintr-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "displayMap", ()=>displayMap);
+const displayMap = (locations)=>{
+    mapboxgl.accessToken = "pk.eyJ1IjoieWlqaWEwMSIsImEiOiJjbHNhbGV6dnAwM3VqMmtuemhmMGhndmRnIn0.5znqvxfRGEXcognmqmBP_A";
+    var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/yijia01/clujre5tc00q601r5emb79p6e",
+        scrollZoom: false
+    });
+    const bounds = new mapboxgl.LngLatBounds();
+    // set globe fog on load
+    map.on("style.load", ()=>{
+        map.setFog({});
+    });
+    let popup;
+    locations.forEach((loc)=>{
+        // Create marker
+        const el = document.createElement("div");
+        el.className = "marker";
+        // Add marker
+        new mapboxgl.Marker({
+            element: el,
+            anchor: "bottom"
+        }).setLngLat(loc.coordinates).addTo(map);
+        // Add popup on marker hover
+        el.addEventListener("mouseenter", ()=>{
+            popup = new mapboxgl.Popup({
+                offset: 30
+            }).setLngLat(loc.coordinates).setHTML(`<p>Day ${loc.day}: ${loc.description}</p>`).addTo(map);
+        });
+        // Remove popup when mouse leaves marker
+        el.addEventListener("mouseleave", ()=>{
+            if (popup) popup.remove();
+        });
+        // Extend map bounds to include current location
+        bounds.extend(loc.coordinates);
+    });
+    map.fitBounds(bounds, {
+        padding: {
+            top: 200,
+            bottom: 150,
+            left: 100,
+            right: 100
+        }
+    });
+};
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"5Birt"}]},["kLubF","4uyBp"], "4uyBp", "parcelRequire11c7")
 
 //# sourceMappingURL=index.js.map
