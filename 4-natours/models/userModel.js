@@ -1,7 +1,7 @@
+const crypto = require('crypto');
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
 
 // name, email, photo, password, passwordConfirm
 const userSchema = new mongoose.Schema({
@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    require: [true, 'Please provide an email address'],
+    required: [true, 'Please provide an email address'],
     unique: true,
     lowercase: true,
     validate: [validator.isEmail, 'Invalid email'],
@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema({
       validator: function (el) {
         return el === this.password;
       },
-      message: 'Please input the same password',
+      message: 'Passwords are not the same!',
     },
   },
   passwordChangedAt: Date,
@@ -57,9 +57,7 @@ userSchema.pre('save', async function (next) {
   }
   // set the password to the current password
   this.password = await bcrypt.hash(this.password, 12);
-  this.passwordConfirm = undefined; // don't wnat to persist this to DB
-
-  this.passwordChangedAt = Date.now() - 1000;
+  this.passwordConfirm = undefined; // don't want to persist this to DB
   next();
 });
 
@@ -99,7 +97,7 @@ userSchema.methods.changedPasswordAfter = function (JWTTimestamp) {
     // console.log(this.passwordChangedAt.getTime(), JWTTimestamp);
     return JWTTimestamp < changedTimestamp; // return true
   }
-  return false; // not chaneged
+  return false; // not changed
 };
 
 // Generate reset token

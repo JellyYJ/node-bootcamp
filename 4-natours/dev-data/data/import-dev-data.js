@@ -25,7 +25,6 @@ mongoose
     useFindAndModify: false,
   })
   .then(() => {
-    // console.log(con.connections); // for testing
     console.log('DB connetion successful');
   });
 
@@ -44,7 +43,12 @@ const importData = async () => {
   try {
     // .create accepts an array of JavaScript objects
     await Tour.create(tours);
-    await User.create(users, { validateBeforeSave: false }); // need to turn off the validation for creating users
+
+    const modifiedUsers = users.map((user) => ({
+      ...user,
+      password: 'test1234', // Set the password to "test1234"
+    }));
+    await User.create(modifiedUsers, { validateBeforeSave: false }); // need to turn off the validation for creating users
     await Review.create(reviews);
     console.log('Data successfully loaded!');
   } catch (err) {
