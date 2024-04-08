@@ -1,5 +1,5 @@
 const multer = require('multer');
-
+const jimp = require('jimp');
 const User = require('../models/userModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -8,23 +8,23 @@ const factory = require('./handlerFactory');
 /*
  * Photo Upload - multer middleware
  */
-const multerStorage = multer.diskStorage({
-  // NOT simply a file path, but utilising a callback function
-  destination: (req, file, cb) => {
-    cb(null, 'public/img/users');
-  },
-  filename: (req, file, cb) => {
-    // user-userId-timestamp.jpeg
-    const ext = file.mimetype.split('/')[1]; // get extension of the file
-    cb(null, `user-${req.user._id}-${Date.now()}.${ext}`);
-  },
-});
+// const multerStorage = multer.diskStorage({
+//   // NOT simply a file path, but utilising a callback function
+//   destination: (req, file, cb) => {
+//     cb(null, 'public/img/users');
+//   },
+//   filename: (req, file, cb) => {
+//     // user-userId-timestamp.jpeg
+//     const ext = file.mimetype.split('/')[1]; // get extension of the file
+//     cb(null, `user-${req.user._id}-${Date.now()}.${ext}`);
+//   },
+// });
 
+const multerStorage = multer.memoryStorage();
 const multerFilter = (req, file, cb) => {
   if (file.mimetype.startsWith('image')) {
     cb(null, true); // To accept the file pass 'true'
   } else {
-    cb(null, false);
     cb(
       new AppError(
         'The file selected is not an image, please upload only image',
@@ -41,28 +41,24 @@ const upload = multer({
 }).single('photo');
 exports.uploadUserPhoto = upload;
 
-// // Resize Photo
-// exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
-//   if (!req.file) return next();
-
-//   req.file.filename = `user-${req.user._id}-${Date.now()}.jpeg`;
-//   console.log(req.file.filename);
-//   try {
-//     const image = await jimp.read(req.file.buffer); // Read image buffer with jimp
-//     console.log(image);
-
-//     await image.resize(500, 500);
-//     await image.quality(90);
-//     // const filename = `user-${req.user._id}-${Date.now()}.jpeg`;
-//     // await image.write(`public/img/users/${filename}`);
-//     await image.write(`public/img/users/`);
-//     console.log(image);
-//     // req.file.filename = filename;
-//     next();
-//   } catch (err) {
-//     return next(new AppError('Error resizing image', 500));
-//   }
-// });
+// Resize Photo
+exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+  if (!req.file) {
+    return next();
+  }
+  try {
+    // console.log('Original file buffer:', req.file.buffer); // Debugging
+    const image = await jimp.read(req.file.buffer); // Read image buffer with jimp
+    await image.resize(500, 500);
+    await image.quality(90);
+    const filename = `user-${req.user._id}-${Date.now()}.jpg`;
+    await image.writeAsync(`public/img/users/${filename}`);
+    req.file.filename = filename;
+    next();
+  } catch (err) {
+    return next(new AppError('Error resizing image', 400));
+  }
+});
 
 // Check for allowed objects
 const filterObj = (obj, ...allowedFields) => {
@@ -83,7 +79,7 @@ exports.getMe = (req, res, next) => {
 
 exports.updateMe = catchAsync(async (req, res, next) => {
   console.log(req.file);
-  console.log(req.body);
+  // console.log(req.body);
 
   // 1) Create error if user POSTs password data
   if (req.body.password || req.body.passwordConfirm) {
