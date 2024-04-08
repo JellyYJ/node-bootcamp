@@ -35,8 +35,34 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
-exports.uploadUserPhoto = upload.single('photo');
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+}).single('photo');
+exports.uploadUserPhoto = upload;
+
+// // Resize Photo
+// exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+//   if (!req.file) return next();
+
+//   req.file.filename = `user-${req.user._id}-${Date.now()}.jpeg`;
+//   console.log(req.file.filename);
+//   try {
+//     const image = await jimp.read(req.file.buffer); // Read image buffer with jimp
+//     console.log(image);
+
+//     await image.resize(500, 500);
+//     await image.quality(90);
+//     // const filename = `user-${req.user._id}-${Date.now()}.jpeg`;
+//     // await image.write(`public/img/users/${filename}`);
+//     await image.write(`public/img/users/`);
+//     console.log(image);
+//     // req.file.filename = filename;
+//     next();
+//   } catch (err) {
+//     return next(new AppError('Error resizing image', 500));
+//   }
+// });
 
 // Check for allowed objects
 const filterObj = (obj, ...allowedFields) => {
