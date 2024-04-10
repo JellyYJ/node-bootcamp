@@ -1,12 +1,75 @@
+const multer = require('multer');
+const jimp = require('jimp');
+
 const Tour = require('../models/tourModel');
 const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
+const multerStorage = multer.memoryStorage();
+const multerFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith('image')) {
+    cb(null, true); // To accept the file pass 'true'
+  } else {
+    cb(
+      new AppError(
+        'The file selected is not an image, please upload only image',
+        400
+      ),
+      false
+    );
+  }
+};
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+}).fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]);
+exports.uploadTourImages = upload;
+
+// Resize images
+exports.resizeTourImages = catchAsync(async (req, res, next) => {
+  if (!req.files.imageCover && !req.files.images) {
+    return next();
+  }
+
+  try {
+    // 1) Cover Image
+    if (req.files.imageCover) {
+      const imgcover = await jimp.read(req.files.imageCover[0].buffer);
+      await imgcover.resize(2000, 1333);
+      await imgcover.quality(90);
+      const coverFilename = `tour-${req.params.id}-${Date.now()}-cover.jpg`;
+      await imgcover.writeAsync(`public/img/tours/${coverFilename}`);
+      req.body.imageCover = coverFilename;
+    }
+
+    // 2) Images
+    req.body.images = [];
+    if (req.files.images) {
+      await Promise.all(
+        req.files.images.map(async (file, i) => {
+          const img = await jimp.read(file.buffer);
+          await img.resize(2000, 1333);
+          await img.quality(90);
+          const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpg`;
+          await img.writeAsync(`public/img/tours/${filename}`);
+          req.body.images.push(filename);
+        })
+      );
+    }
+
+    next();
+  } catch (err) {
+    return next(new AppError('Error resizing images for the tour', 400));
+  }
+});
+
 /**
  * Handlers for Tour
  */
-
 // Factory
 exports.createTour = factory.createOne(Tour);
 exports.updateTour = factory.updateOne(Tour);
