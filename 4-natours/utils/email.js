@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const Transport = require('nodemailer-brevo-transport');
 const pug = require('pug');
 const { htmlToText } = require('html-to-text');
 
@@ -13,12 +12,15 @@ module.exports = class Email {
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
-      console.log('HI');
-      return nodemailer.createTransport(
-        new Transport({
-          apiKey: `${process.env.SENDINBLUE_API_KEY}`,
-        })
-      );
+      // Sendgrid
+      return 1;
+      // return nodemailer.createTransport({
+      //   service: 'SendGrid',
+      //   auth: {
+      //     user: process.env.SENDGRID_USERNAME,
+      //     pass: process.env.SENDGRID_PASSWORD,
+      //   },
+      // });
     }
 
     return nodemailer.createTransport({
