@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+
 const bookingSchema = new mongoose.Schema({
   tour: {
-    type: mongoose.Schema.objectId,
+    type: mongoose.Schema.ObjectId,
     ref: 'Tour',
-    requried: [true, 'Booking must belong to a Tour'],
+    required: [true, 'Booking must belong to a Tour!'],
   },
   user: {
     type: mongoose.Schema.ObjectId,
@@ -24,7 +25,6 @@ const bookingSchema = new mongoose.Schema({
   },
 });
 
-// populate tour and user whenever there is a query
 bookingSchema.pre(/^find/, function (next) {
   this.populate('user').populate({
     path: 'tour',
@@ -33,5 +33,5 @@ bookingSchema.pre(/^find/, function (next) {
   next();
 });
 
-const Booking = mongoose.model('booking', bookingSchema);
+const Booking = mongoose.model('Booking', bookingSchema);
 module.exports = Booking;
