@@ -16,16 +16,18 @@ This is the backend for Natours application. Follow the steps below to set it up
    npm install
    ```
 
-## Usage
+## Run the project
 
-After installing the dependencies, you can run the backend server using the following command:
+1. Run the server in development mode
 
-    ```
-    npm run dev
-    ```
+   ```
+   npm start
+   ```
 
-This will start the backend in dev server, you can access the website on `http://localhost:5173`
+2. Run the server in production mode
 
-## Additional Information
+   ```
+   npm run start:prod
+   ```
 
-For additional information or troubleshooting, please refer to the documentation or contact the project maintainers.
+The server will run at `http://127.0.0.1:3000/`
