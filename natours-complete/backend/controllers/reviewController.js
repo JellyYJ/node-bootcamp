@@ -1,5 +1,5 @@
 const Review = require('../models/reviewModel.js');
-const factory = require('./handlerFactory');
+const factory = require('./handlerFactory.js');
 
 // Get Ids not specified in the req body
 exports.setTourUserIds = (req, res, next) => {
