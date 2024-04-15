@@ -160,7 +160,6 @@ tourSchema.virtual('reviews', {
 // Document Middleware: runs before .save() and .create()
 tourSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
-  // console.log(this.slug);
   next(); // to call the next middleware in the stack
 });
 
@@ -182,7 +181,6 @@ tourSchema.pre(/^find/, function (next) {
 
 tourSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds`); // see how long it takes to run a query
-  // console.log(docs);
   next();
 });
 

@@ -13,7 +13,7 @@ module.exports = class Email {
 
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
-      console.log('HI');
+      console.log('I am in production');
       return nodemailer.createTransport(
         new Transport({
           apiKey: `${process.env.SENDINBLUE_API_KEY}`,
