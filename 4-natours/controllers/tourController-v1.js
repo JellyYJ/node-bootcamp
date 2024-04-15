@@ -52,7 +52,6 @@ exports.aliasTopTours = (req, res, next) => {
 };
 
 exports.getAllTours = catchAsync(async (req, res) => {
-  // console.log(req.requestTime);
   // // 1a) Filtering
   // // BUILD QUERY
   // const queryObj = { ...req.query }; // shallow copy of `req.query`
@@ -200,8 +199,6 @@ exports.createTour = catchAsync(async (req, res, next) => {
   });
 });
 
-// // console.log(req.body);
-
 // const newId = tours[tours.length - 1].id + 1;
 // // create a new obj by merging the two exsiting objs
 // const newTour = Object.assign({ id: newId }, req.body);
@@ -292,7 +289,7 @@ exports.getTourStats = catchAsync(async (req, res) => {
 });
 
 exports.getMonthlyPlan = catchAsync(async (req, res) => {
-  const year = req.params.year * 1; // 2021
+  const year = req.params.year * 1;
 
   const plan = await Tour.aggregate([
     {
@@ -322,7 +319,7 @@ exports.getMonthlyPlan = catchAsync(async (req, res) => {
       },
     },
     {
-      $sort: { numTourStarts: -1 }, // descending a
+      $sort: { numTourStarts: -1 }, // descending: -1
     },
     {
       $limit: 12,
