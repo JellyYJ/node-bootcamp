@@ -3,12 +3,12 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
-
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -67,16 +67,16 @@ app.use(
   })
 );
 
+// Compress all the texts sending to the client
+app.use(compression());
+
 // Serve static files from the 'public' directory located in the same directory as this server file.
 app.use(express.static(`${__dirname}/public`));
 
-// TEST MIDDLEWARE AREA
+// TEST MIDDLEWARE
 app.use((req, res, next) => {
   // console.log('Hello from the middleware');
   req.requestTime = new Date().toISOString();
-  // console.log(req.headers);
-  // console.log(req.cookies);
-
   // if don't call next func, the cycle will be stuck, can never get the response
   next();
 });
