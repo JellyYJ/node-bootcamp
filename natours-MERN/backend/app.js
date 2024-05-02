@@ -19,6 +19,16 @@ const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
+const cors = require('cors');
+// Implement cors
+app.use(
+  cors({
+    origin: ['http://localhost:5173'],
+    credentials: true,
+  })
+);
+app.options('*', cors());
+
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views')); // node will automatically create the correct path
 
@@ -85,6 +95,8 @@ app.use((req, res, next) => {
  * Routes
  */
 app.use('/', viewRouter);
+// app.get('/', (req, res) => res.send('Server working!'));
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);

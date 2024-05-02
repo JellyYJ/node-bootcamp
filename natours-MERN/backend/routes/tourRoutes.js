@@ -1,12 +1,11 @@
 const express = require('express');
+const router = express.Router();
 
 // import from controllers
 const tourController = require('../controllers/tourController');
 const authController = require('../controllers/authController');
 
 const reviewRouter = require('../routes/reviewRoutes');
-
-const router = express.Router();
 
 // checkID middleware function (no longer needed))
 // router.param('id', tourController.checkID);
