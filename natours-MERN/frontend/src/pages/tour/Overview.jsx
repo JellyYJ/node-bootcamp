@@ -1,7 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import { getToursData } from "../../api/api";
+import TourCard from "../../components/TourCard";
 
-function Overview() {
+const CardContainer = styled.div`
+  max-width: 130rem;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  gap: 5rem;
+  padding: 3rem;
+
+  @media only screen and (max-width: 1180px) {
+    max-width: 100rem;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  }
+  @media only screen and (max-width: 850px) {
+    grid-template-columns: 1fr;
+  }
+`;
+
+const Overview = () => {
   const [toursData, setTourData] = useState([]);
 
   useEffect(() => {
@@ -17,18 +36,10 @@ function Overview() {
   }, []);
 
   return (
-    <div>
-      {toursData.map((tour) => (
-        <div key={tour._id}>
-          <h2>{tour.name}</h2>
-          <p>Price: {tour.price}</p>
-          <p>Ratings Average: {tour.ratingsAverage}</p>
-          <p>Ratings Quantity: {tour.ratingsQuantity}</p>
-          {/* Render other tour information */}
-        </div>
-      ))}
-    </div>
+    <CardContainer>
+      <TourCard tours={toursData} />
+    </CardContainer>
   );
-}
+};
 
 export default Overview;
