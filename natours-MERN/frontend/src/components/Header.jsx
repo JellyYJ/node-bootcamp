@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../api/api";
+
 const HeaderWrapper = styled.header`
   background-color: var(--color-grey-900);
   padding: 0 8rem;
@@ -29,7 +33,9 @@ const NavItem = styled.a`
   margin-left: 2rem;
 `;
 
-const Header = ({ user }) => {
+function Header(user) {
+  const navigate = useNavigate();
+
   return (
     <HeaderWrapper>
       <Nav>
@@ -39,13 +45,15 @@ const Header = ({ user }) => {
       <Nav>
         {user ? (
           <>
-            <NavItem href="#">Log out</NavItem>
+            <button type="button" onClick={() => logout()}>
+              Log out
+            </button>
             <NavItem href="/me">
-              {/* <img
-                src={`/img/users/${user.photo}`}
-                alt={`Photo of ${user.name}`}
-              /> */}
-              <span>{user.name.split(" ")[0]}</span>
+              <img
+                src={`/img/users/${user?.photo}`}
+                alt={`Photo of ${user?.name}`}
+              />
+              <span>{user?.name?.split(" ")[0]}</span>
             </NavItem>
           </>
         ) : (
@@ -57,6 +65,6 @@ const Header = ({ user }) => {
       </Nav>
     </HeaderWrapper>
   );
-};
+}
 
 export default Header;

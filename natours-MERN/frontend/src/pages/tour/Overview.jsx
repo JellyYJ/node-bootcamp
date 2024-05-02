@@ -20,7 +20,7 @@ const CardContainer = styled.div`
   }
 `;
 
-const Overview = () => {
+function Overview() {
   const [toursData, setTourData] = useState([]);
 
   useEffect(() => {
@@ -40,6 +40,6 @@ const Overview = () => {
       <TourCard tours={toursData} />
     </CardContainer>
   );
-};
+}
 
 export default Overview;
