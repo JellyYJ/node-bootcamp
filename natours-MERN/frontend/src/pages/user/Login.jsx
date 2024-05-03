@@ -80,17 +80,19 @@ function Login() {
   };
 
   function handleSubmit(e) {
-    // e.preventDefault(e);
-    // if (!email || !password) return;
-    // login(
-    //   { email, password },
-    //   {
-    //     onSettled: () => {
-    //       setEmail("");
-    //       setPassword("");
-    //     },
-    //   }
-    // );
+    e.preventDefault(e);
+    if (!email || !password) return;
+    // login({ email, password });
+
+    login(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail("");
+          setPassword("");
+        },
+      }
+    );
   }
 
   return (
