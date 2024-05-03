@@ -4,6 +4,8 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../api/api";
+// import { getLogInUser } from "../api/api";
+import { useUser } from "../pages/user/useUser";
 
 const HeaderWrapper = styled.header`
   background-color: var(--color-grey-900);
@@ -33,7 +35,11 @@ const NavItem = styled.a`
   margin-left: 2rem;
 `;
 
-function Header(user) {
+function Header() {
+  // const [user, setUser] = useState(null);
+  const { isLoading, user } = useUser();
+  console.log(user);
+
   const navigate = useNavigate();
 
   return (
