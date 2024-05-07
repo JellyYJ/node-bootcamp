@@ -19,12 +19,17 @@ export async function login({ email, password }) {
     let response = await axios({
       method: "POST",
       url: hostUrl + "/api/v1/users/login",
+      headers: {
+        "Content-Type": "application/json",
+      },
       data: {
         email,
         password,
       },
     });
-    console.log(response);
+    // const data = await response.json();
+    // console.log("settoken:", response.data.token);
+    localStorage.setItem("token", response.data.token);
 
     if (response.data.status === "success") {
       alert("Successfully Login");
@@ -35,46 +40,63 @@ export async function login({ email, password }) {
   }
 }
 
-export const logout = async () => {
+export async function logout() {
   try {
-    const res = await axios({
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("No current logged in user");
+      return null;
+    }
+
+    const response = await axios({
       method: "GET",
       url: "/api/v1/users/logout",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
-    if ((res.data.status = "success")) alert("You are logged out");
+
+    if (response.status === 200) {
+      alert("You are logged out");
+      localStorage.removeItem("token");
+    }
   } catch (err) {
     console.log(err.response);
   }
-};
-
-// User
-export async function getLogInUser() {
-  try {
-    const response = await axios.get(hostUrl + "/api/v1/users/me");
-    console.log(response);
-    return response;
-  } catch (err) {
-    console.log(err);
-    throw new Error("Error retrieving current user from server");
-  }
 }
 
+// User
 // export async function getLogInUser() {
 //   try {
-//     const token = localStorage.getItem("jwt"); // Assuming you're storing the token in localStorage after login
-//     if (!token) {
-//       throw new Error("No token found");
-//     }
-
-//     const response = await axios.get(hostUrl + "/api/v1/users/me", {
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//       },
-//     });
-//     console.log(response);
-//     // return response.data.data.user;
+//     const response = await axios.get(hostUrl + "/api/v1/users/me");
+//     console.log("getLoginUser");
+//     return response;
 //   } catch (err) {
 //     console.log(err);
 //     throw new Error("Error retrieving current user from server");
 //   }
 // }
+
+export async function getLogInUser() {
+  try {
+    const token = localStorage.getItem("token");
+    // console.log("getToken", token);
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    const response = await axios.get(hostUrl + "/api/v1/users/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const userData = response.data.data.doc;
+
+    return userData;
+  } catch (error) {
+    console.error("Error getting current user:", error);
+    return null;
+  }
+}

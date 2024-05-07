@@ -1,15 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { logout } from "../api/api";
+// import { logout } from "../api/api";
 // import { getLogInUser } from "../api/api";
 import { useUser } from "../pages/user/useUser";
+import { useLogout } from "../pages/user/useLogout";
 
 const HeaderWrapper = styled.header`
   background-color: var(--color-grey-900);
-  padding: 0 8rem;
+  padding: 0 5rem;
   height: 8rem;
   position: relative;
   display: flex;
@@ -27,45 +26,74 @@ const LogoImg = styled.img`
 
 const Nav = styled.nav`
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const NavItem = styled.a`
   color: var(--color-green-0);
   text-decoration: none;
-  margin-left: 2rem;
+  margin-left: 3rem;
+  transition: transform 0.3s ease;
+  font-size: 1.5rem;
+
+  &:hover {
+    transform: translateY(-0.3rem);
+  }
+`;
+
+const ProfileImg = styled.img`
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+`;
+
+const LogoutButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: var(--color-green-1);
+  }
 `;
 
 function Header() {
-  // const [user, setUser] = useState(null);
   const { isLoading, user } = useUser();
-  console.log(user);
-
-  const navigate = useNavigate();
+  const { isLoggingout, logout } = useLogout();
 
   return (
     <HeaderWrapper>
-      <Nav>
-        <NavItem href="/">All tours</NavItem>
-      </Nav>
       <LogoImg src="/logo-white.png" alt="Natours logo" />
       <Nav>
+        <NavItem href="/">ALL TOURS</NavItem>
         {user ? (
           <>
-            <button type="button" onClick={() => logout()}>
-              Log out
-            </button>
+            <NavItem>
+              <LogoutButton
+                disabled={isLoading || isLoggingout}
+                onClick={logout}
+              >
+                LOG OUT
+              </LogoutButton>
+            </NavItem>
+
             <NavItem href="/me">
-              <img
+              <ProfileImg
                 src={`/img/users/${user?.photo}`}
                 alt={`Photo of ${user?.name}`}
               />
-              <span>{user?.name?.split(" ")[0]}</span>
+              {/* <UserName>{user?.name?.split(" ")[0]}</UserName> */}
             </NavItem>
           </>
         ) : (
           <>
-            <NavItem href="/login">Log in</NavItem>
-            <NavItem href="#">Sign up</NavItem>
+            <NavItem href="/login">LOG IN</NavItem>
+            <NavItem href="#">SIGN UP</NavItem>
           </>
         )}
       </Nav>

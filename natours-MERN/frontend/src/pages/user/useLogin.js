@@ -9,7 +9,7 @@ export function useLogin() {
   const { mutate: login, isLoading: isLogging } = useMutation({
     mutationFn: ({ email, password }) => loginAPI({ email, password }),
     onSuccess: (user) => {
-      console.log("from useLogin", user);
+      // console.log("from useLogin", user);
       if (user) {
         queryClient.setQueryData(["user"], user);
         // queryClient.setQueriesData(["user"], user); //WRONG;
