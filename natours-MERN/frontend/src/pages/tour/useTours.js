@@ -8,6 +8,6 @@ export function useTours() {
     error,
   } = useQuery({ queryKey: ["tours"], queryFn: getToursData });
 
-  console.log("from useTours:", tours);
+  // console.log("from useTours:", tours);
   return { isPending, tours, error };
 }

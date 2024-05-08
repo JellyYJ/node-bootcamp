@@ -6,8 +6,23 @@ export async function getToursData() {
   try {
     const response = await axios.get(hostUrl + "/api/v1/tours");
     const toursData = response.data.data.data;
+    // console.log(toursData);
     // console.log("api", response.data); ORIGINAL VERSION
     return toursData;
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error retrieving tours from server");
+  }
+}
+
+export async function getTour(tourId) {
+  try {
+    const response = await axios.get(hostUrl + `/api/v1/tours/${tourId}`);
+    // const tour = response;
+    if (response.data.status === "success") {
+      // console.log(response.data);
+      return response.data.data.doc;
+    }
   } catch (err) {
     console.log(err);
     throw new Error("Error retrieving tours from server");

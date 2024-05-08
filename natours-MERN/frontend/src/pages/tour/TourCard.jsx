@@ -4,7 +4,7 @@ import { useTours } from "./useTours";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
 
-const CardWrapper = styled.div`
+const CardContainer = styled.div`
   background-color: var(--color-green-0);
   border-radius: 3px;
   overflow: hidden;
@@ -154,10 +154,14 @@ function TourCard() {
   if (isPending) return <Spinner />;
   if (!tours) return <Empty resourceName="Tours" />;
 
+  function handleClick(e) {
+    e.prevent();
+  }
+
   return (
     <>
       {tours.map((tour) => (
-        <CardWrapper key={tour.slug}>
+        <CardContainer key={tour.slug}>
           <CardHeader>
             <CardPicture>
               <CardPictureOverlay>&nbsp;</CardPictureOverlay>
@@ -217,9 +221,11 @@ function TourCard() {
                 <CardFooterText>{`ratings (${tour.ratingsQuantity})`}</CardFooterText>
               </CardFooterItem>
             </CardFooterItems>
-            <Button href={`/tours/${tour.slug}`}>Details</Button>
+            <Button href={`/tours/${tour.id}`} onClick={handleClick}>
+              Details
+            </Button>
           </CardFooter>
-        </CardWrapper>
+        </CardContainer>
       ))}
     </>
   );
