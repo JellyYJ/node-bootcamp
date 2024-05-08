@@ -63,7 +63,7 @@ const LogoutButton = styled.button`
 `;
 
 function Header() {
-  const { isLoading, user } = useUser();
+  const { isPending, user } = useUser();
   const { isLoggingout, logout } = useLogout();
 
   return (
@@ -75,7 +75,7 @@ function Header() {
           <>
             <NavItem>
               <LogoutButton
-                disabled={isLoading || isLoggingout}
+                disabled={isPending || isLoggingout}
                 onClick={logout}
               >
                 LOG OUT

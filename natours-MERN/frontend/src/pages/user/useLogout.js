@@ -6,7 +6,7 @@ export function useLogout() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  const { mutate: logout, isLoading } = useMutation({
+  const { mutate: logout, isPending } = useMutation({
     mutationFn: logoutAPI,
     onSuccess: () => {
       // since at login, we saved the user data to the cache
@@ -14,5 +14,5 @@ export function useLogout() {
       navigate("/login", { replace: true });
     },
   });
-  return { logout, isLoading };
+  return { logout, isPending };
 }

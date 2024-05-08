@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { getToursData } from "../../api/api";
-import TourCard from "../../components/TourCard";
+import TourCard from "./TourCard";
 
 const CardContainer = styled.div`
   max-width: 130rem;
@@ -21,23 +20,23 @@ const CardContainer = styled.div`
 `;
 
 function Overview() {
-  const [toursData, setTourData] = useState([]);
+  // const [toursData, setTourData] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await getToursData();
-        setTourData(response?.data.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       const response = await getToursData();
+  //       setTourData(response?.data.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   fetchData();
+  // }, []);
 
   return (
     <CardContainer>
-      <TourCard tours={toursData} />
+      <TourCard />
     </CardContainer>
   );
 }

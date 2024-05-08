@@ -1,5 +1,8 @@
 import React from "react";
 import styled from "styled-components";
+import { useTours } from "./useTours";
+import Empty from "../../components/Empty";
+import Spinner from "../../components/Spinner";
 
 const CardWrapper = styled.div`
   background-color: var(--color-green-0);
@@ -51,7 +54,7 @@ const CardPictureImg = styled.img`
   z-index: 0;
 `;
 
-const HeadingTertiary = styled.h3`
+const Heading = styled.h3`
   position: absolute;
   bottom: 3rem;
   right: 2rem;
@@ -143,7 +146,14 @@ const Button = styled.a`
   }
 `;
 
-const TourCard = ({ tours }) => {
+// const TourCard = ({ tours }) => {
+function TourCard() {
+  const { isPending, tours } = useTours();
+  // console.log(tours);
+
+  if (isPending) return <Spinner />;
+  if (!tours) return <Empty resourceName="Tours" />;
+
   return (
     <>
       {tours.map((tour) => (
@@ -156,8 +166,9 @@ const TourCard = ({ tours }) => {
                 alt={tour.name}
               />
             </CardPicture>
-            <HeadingTertiary>{tour.name}</HeadingTertiary>
+            <Heading>{tour.name}</Heading>
           </CardHeader>
+
           <CardDetails>
             <CardSubHeading>
               {`${tour.difficulty} ${tour.duration}-day tour`}
@@ -212,6 +223,6 @@ const TourCard = ({ tours }) => {
       ))}
     </>
   );
-};
+}
 
 export default TourCard;

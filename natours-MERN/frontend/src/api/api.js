@@ -4,9 +4,10 @@ import axios from "axios";
 // Tours
 export async function getToursData() {
   try {
-    const response = await axios.get(hostUrl + "/api/v1/tours/");
-    // console.log(response.data);
-    return response.data;
+    const response = await axios.get(hostUrl + "/api/v1/tours");
+    const toursData = response.data.data.data;
+    // console.log("api", response.data); ORIGINAL VERSION
+    return toursData;
   } catch (err) {
     console.log(err);
     throw new Error("Error retrieving tours from server");
