@@ -3,12 +3,14 @@ import { useTour } from "./useTour";
 import TourHeader from "./TourHeader";
 import TourContents from "./TourContents";
 import TourPictures from "./TourPictures";
-
+import Empty from "../../components/Empty";
 function TourDetails() {
   const { tour, isPending } = useTour();
 
-  if (!tour) return <Spinner />;
-  console.log(tour);
+  if (isPending) return <Spinner />;
+  if (!tour) return <Empty></Empty>;
+  // console.log(tour);
+
   return (
     <>
       <TourHeader

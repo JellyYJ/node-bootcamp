@@ -10,6 +10,6 @@ export function useTour() {
     error,
   } = useQuery({ queryKey: ["tour", tourId], queryFn: () => getTour(tourId) });
 
-  console.log("from useTour:", tour);
+  // console.log("from useTour:", tour);
   return { isPending, tour, error };
 }

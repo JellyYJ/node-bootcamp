@@ -1,8 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-
-// import { logout } from "../api/api";
-// import { getLogInUser } from "../api/api";
 import { useUser } from "../pages/user/useUser";
 import { useLogout } from "../pages/user/useLogout";
 
@@ -15,13 +12,18 @@ const HeaderWrapper = styled.header`
   justify-content: space-between;
   align-items: center;
 
-  @media only screen and (max-width: 50rem) {
+  @media only screen and (max-width: 768px) {
     flex-direction: column;
   }
 `;
 
 const LogoImg = styled.img`
   height: 3.5rem;
+  display: block;
+
+  @media only screen and (max-width: 768px) {
+    display: none; /* Hide logo on smaller screens */
+  }
 `;
 
 const Nav = styled.nav`
@@ -29,6 +31,9 @@ const Nav = styled.nav`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  @media only screen and (max-width: 768px) {
+    margin-top: 1.5rem;
+  }
 `;
 
 const NavItem = styled.a`
@@ -56,10 +61,6 @@ const LogoutButton = styled.button`
   color: var(--color-white);
   cursor: pointer;
   transition: color 0.3s;
-
-  &:hover {
-    color: var(--color-green-1);
-  }
 `;
 
 function Header() {

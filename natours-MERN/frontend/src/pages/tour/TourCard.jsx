@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useTours } from "./useTours";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
+import { convertToMonthOnly } from "../../utils/dateConverter";
+import TourFacts from "./TourItemsContainer";
 
 const CardContainer = styled.div`
   background-color: var(--color-green-0);
@@ -77,19 +79,6 @@ const CardSubHeading = styled.h4`
 const CardText = styled.p`
   font-size: 1.5rem;
   margin-bottom: 2rem;
-`;
-
-const CardData = styled.div`
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-`;
-
-const CardIcon = styled.svg`
-  width: 2.3rem;
-  height: 2.3rem;
-  fill: var(--color-green-600);
-  margin-right: 1.2rem;
 `;
 
 const CardFooter = styled.div`
@@ -178,35 +167,14 @@ function TourCard() {
               {`${tour.difficulty} ${tour.duration}-day tour`}
             </CardSubHeading>
             <CardText>{tour.summary}</CardText>
-            <CardData>
-              <CardIcon>
-                <use xlinkHref="/icons.svg#icon-map-pin"></use>
-              </CardIcon>
-              <span>{tour.startLocation.description}</span>
-            </CardData>
-            <CardData>
-              <CardIcon>
-                <use xlinkHref="/icons.svg#icon-calendar"></use>
-              </CardIcon>
-              <span>
-                {tour.startDates[0].toLocaleString("en-us", {
-                  month: "long",
-                  year: "numeric",
-                })}
-              </span>
-            </CardData>
-            <CardData>
-              <CardIcon>
-                <use xlinkHref="/icons.svg#icon-flag"></use>
-              </CardIcon>
-              <span>{`${tour.locations.length} stops`}</span>
-            </CardData>
-            <CardData>
-              <CardIcon>
-                <use xlinkHref="/icons.svg#icon-user"></use>
-              </CardIcon>
-              <span>{`${tour.maxGroupSize} people`}</span>
-            </CardData>
+
+            <TourFacts icon="map-pin" text={tour.startLocation.description} />
+            <TourFacts
+              icon="calendar"
+              text={convertToMonthOnly(tour.startDates[0])}
+            />
+            <TourFacts icon="flag" text={tour.locations.length} />
+            <TourFacts icon="user" text={tour.maxGroupSize} />
           </CardDetails>
 
           <CardFooter>

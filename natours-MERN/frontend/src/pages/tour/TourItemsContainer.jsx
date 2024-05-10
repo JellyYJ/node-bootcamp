@@ -39,7 +39,7 @@ const TourFacts = ({ icon, label, text, photo }) => {
         </Icon>
       )}
       {photo && <Photo src={`/img/users/${photo}`}></Photo>}
-      <Label>{label}:</Label>
+      {label && <Label>{label}:</Label>}
       <Text>{text}</Text>
     </ItemContainer>
   );

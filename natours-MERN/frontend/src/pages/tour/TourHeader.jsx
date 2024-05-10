@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Heading from "../../components/Heading";
 
 const SectionHeader = styled.section`
   position: relative;
@@ -15,13 +16,17 @@ const SectionHeader = styled.section`
     100% calc(100% - var(--section-rotate)),
     0 100%
   );
+
+  @media screen and (max-width: 768px) {
+    height: 60vw;
+  }
 `;
 
-const Hero = styled.div`
+const ImgContainer = styled.div`
   height: 100%;
 `;
 
-const HeroImage = styled.img`
+const HeaderImg = styled.img`
   object-fit: cover;
   height: 100%;
   width: 100%;
@@ -30,7 +35,7 @@ const HeroImage = styled.img`
   z-index: 0;
 `;
 
-const HeroOverlay = styled.div`
+const ImgOverlay = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -39,69 +44,77 @@ const HeroOverlay = styled.div`
     var(--color-green-0),
     var(--color-green-500)
   );
-  opacity: 0.5;
+  opacity: 0.8;
   z-index: 1;
 `;
 
 const HeadingBox = styled.div`
   position: absolute;
-  bottom: 13vw;
+  bottom: 18vw;
   left: 50%;
   top: 35%;
   transform: translate(-50%, -50%);
   z-index: 2;
+  transition: transform 0.5s ease;
+
+  @media screen and (max-width: 768px) {
+    bottom: 0vw;
+    top: 50%;
+  }
 `;
 
-const HeadingBoxGroup = styled.div`
+const SubHeadingContainer = styled.div`
   color: var(--color-green-0);
-  margin-top: 3rem;
+  margin-top: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
 `;
 
-const HeadingBoxDetail = styled.div`
-  font-size: 1.5rem;
-  font-weight: 700;
+const SubHeading = styled.div`
+  font-size: 2rem;
+  font-weight: 600;
   text-transform: uppercase;
   display: flex;
   align-items: center;
-  text-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15);
+  transition: font-size 0.5s ease;
+
+  @media screen and (max-width: 1480px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const Icon = styled.svg`
-  margin-right: 0.8rem;
-  height: 2rem;
-  width: 2rem;
+  margin-right: 0.5rem;
+  height: 1.5rem;
+  width: 1.5rem;
   fill: currentColor;
-  filter: drop-shadow(0 0.75rem 0.5rem rgba(0, 0, 0, 0.25));
 `;
 
 const TourHeader = ({ imageCover, name, duration, startLocation }) => {
   return (
     <SectionHeader>
-      <Hero>
-        <HeroOverlay>&nbsp;</HeroOverlay>
-        <HeroImage src={`/img/tours/${imageCover}`} alt={name} />
-      </Hero>
+      <ImgContainer>
+        <ImgOverlay>&nbsp;</ImgOverlay>
+        <HeaderImg src={`/img/tours/${imageCover}`} alt={name} />
+      </ImgContainer>
       <HeadingBox>
-        <h1>
-          <span>{name}</span>
-        </h1>
-        <HeadingBoxGroup>
-          <HeadingBoxDetail>
+        <Heading as="h1">{name}</Heading>
+        <SubHeadingContainer>
+          <SubHeading>
             <Icon>
               <use xlinkHref="/icons.svg#icon-clock"></use>
             </Icon>
             <span>{duration} days</span>
-          </HeadingBoxDetail>
-          <HeadingBoxDetail>
+          </SubHeading>
+          <SubHeading>
             <Icon>
               <use xlinkHref="/icons.svg#icon-map-pin"></use>
             </Icon>
             <span>{startLocation.description}</span>
-          </HeadingBoxDetail>
-        </HeadingBoxGroup>
+          </SubHeading>
+        </SubHeadingContainer>
       </HeadingBox>
     </SectionHeader>
   );
