@@ -4,7 +4,7 @@ import { useTours } from "./useTours";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
 import { convertToMonthOnly } from "../../utils/dateConverter";
-import TourFacts from "./TourItemsContainer";
+import TourFacts from "./TourInfo";
 
 const CardContainer = styled.div`
   background-color: var(--color-green-0);

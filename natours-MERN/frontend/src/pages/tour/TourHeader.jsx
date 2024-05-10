@@ -4,18 +4,8 @@ import Heading from "../../components/Heading";
 const SectionHeader = styled.section`
   position: relative;
   height: 42vw;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - var(--section-rotate)),
-    0 100%
-  );
-  -webkit-clip-path: polygon(
-    0 0,
-    100% 0,
-    100% calc(100% - var(--section-rotate)),
-    0 100%
-  );
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
 
   @media screen and (max-width: 768px) {
     height: 60vw;

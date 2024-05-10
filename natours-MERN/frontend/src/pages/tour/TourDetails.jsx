@@ -9,7 +9,7 @@ function TourDetails() {
 
   if (isPending) return <Spinner />;
   if (!tour) return <Empty></Empty>;
-  // console.log(tour);
+  console.log(tour);
 
   return (
     <>
@@ -30,7 +30,7 @@ function TourDetails() {
         description={tour.description}
         guides={tour.guides}
       />
-      <TourPictures />
+      <TourPictures images={tour.images} />
     </>
   );
 }

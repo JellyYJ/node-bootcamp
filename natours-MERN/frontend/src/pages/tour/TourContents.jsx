@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import TourFacts from "./TourItemsContainer";
+import TourFacts from "./TourInfo";
 import Heading from "../../components/Heading";
 import { convertToDateOnly } from "../../utils/dateConverter";
 
 const ContentsContainer = styled.div`
-  /* background-color: var(--color-green-50); */
-  margin-top: 10rem;
+  margin-top: 5rem;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -17,7 +16,6 @@ const ContentsContainer = styled.div`
 `;
 
 const FactsContainer = styled.div`
-  background-color: #f7f7f7;
   display: flex;
   flex-direction: column;
   max-width: 50rem;

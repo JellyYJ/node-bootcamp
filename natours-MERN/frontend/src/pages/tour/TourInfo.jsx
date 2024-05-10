@@ -26,10 +26,6 @@ const Label = styled.span`
   margin-right: 0.5rem;
 `;
 
-const Text = styled.span`
-  color: #555;
-`;
-
 const TourFacts = ({ icon, label, text, photo }) => {
   return (
     <ItemContainer>
@@ -40,7 +36,7 @@ const TourFacts = ({ icon, label, text, photo }) => {
       )}
       {photo && <Photo src={`/img/users/${photo}`}></Photo>}
       {label && <Label>{label}:</Label>}
-      <Text>{text}</Text>
+      <p>{text}</p>
     </ItemContainer>
   );
 };
