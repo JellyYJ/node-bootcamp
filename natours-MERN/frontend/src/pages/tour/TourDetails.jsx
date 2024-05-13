@@ -3,6 +3,8 @@ import { useTour } from "./useTour";
 import TourHeader from "./TourHeader";
 import TourContents from "./TourContents";
 import TourPictures from "./TourPictures";
+import MapBox from "./Mapbox";
+
 import Empty from "../../components/Empty";
 function TourDetails() {
   const { tour, isPending } = useTour();
@@ -31,6 +33,7 @@ function TourDetails() {
         guides={tour.guides}
       />
       <TourPictures images={tour.images} />
+      {tour.locations.length > 0 && <MapBox locations={tour.locations} />}
     </>
   );
 }
