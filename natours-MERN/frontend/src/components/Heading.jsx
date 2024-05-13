@@ -29,9 +29,9 @@ const Heading = styled.h1`
   ${(props) =>
     props.as === "h4" &&
     css`
-      font-size: 3rem;
-      font-weight: 600;
-      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 500;
+      color: var(--color-green-500);
     `}
 
   @media screen and (min-width: 1480px) {

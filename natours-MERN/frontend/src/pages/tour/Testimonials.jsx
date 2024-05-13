@@ -6,6 +6,8 @@ const TestimonialsSection = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  background-color: var(--color-green-400);
+
   /* clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
   -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%); */
 `;
