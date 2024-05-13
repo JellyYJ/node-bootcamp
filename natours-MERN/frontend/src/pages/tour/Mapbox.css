@@ -1,7 +1,7 @@
 .section-map {
   position: relative;
   height: 65rem;
-  margin-top: calc(0px - var(--section-rotate));
+  /* margin-top: calc(0px - var(--section-rotate)); */
 }
 
 #map {

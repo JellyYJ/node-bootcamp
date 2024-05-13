@@ -63,7 +63,17 @@ const Mapbox = ({ locations }) => {
     return () => map.remove();
   }, [locations, bounds]);
 
-  return <div ref={mapContainer} style={{ width: "100%", height: "500px" }} />;
+  return (
+    <div
+      ref={mapContainer}
+      style={{
+        width: "100%",
+        height: "500px",
+        clipPath: "polygon(0 5%, 100% 0, 100% 95%, 0 100%)",
+        WebkitClipPath: "polygon(0 5%, 100% 0, 100% 95%, 0 100%)",
+      }}
+    />
+  );
 };
 
 export default Mapbox;
