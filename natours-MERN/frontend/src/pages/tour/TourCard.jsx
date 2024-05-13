@@ -4,7 +4,7 @@ import { useTours } from "./useTours";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
 import { convertToMonthOnly } from "../../utils/dateConverter";
-import TourFacts from "./TourInfo";
+import TourFacts from "./TourFacts";
 
 const CardContainer = styled.div`
   background-color: var(--color-green-0);
@@ -173,8 +173,8 @@ function TourCard() {
               icon="calendar"
               text={convertToMonthOnly(tour.startDates[0])}
             />
-            <TourFacts icon="flag" text={tour.locations.length} />
-            <TourFacts icon="user" text={tour.maxGroupSize} />
+            <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
+            <TourFacts icon="user" text={`${tour.maxGroupSize} people`} />
           </CardDetails>
 
           <CardFooter>

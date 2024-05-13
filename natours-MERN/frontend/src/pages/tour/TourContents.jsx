@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import TourFacts from "./TourInfo";
+import TourFacts from "./TourFacts";
 import Heading from "../../components/Heading";
 import { convertToDateOnly } from "../../utils/dateConverter";
 

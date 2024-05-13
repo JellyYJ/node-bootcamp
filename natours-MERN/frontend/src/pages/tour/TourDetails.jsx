@@ -4,8 +4,9 @@ import TourHeader from "./TourHeader";
 import TourContents from "./TourContents";
 import TourPictures from "./TourPictures";
 import MapBox from "./Mapbox";
-
+import Testimonials from "./Testimonials";
 import Empty from "../../components/Empty";
+
 function TourDetails() {
   const { tour, isPending } = useTour();
 
@@ -34,6 +35,7 @@ function TourDetails() {
       />
       <TourPictures images={tour.images} />
       {tour.locations.length > 0 && <MapBox locations={tour.locations} />}
+      {tour.reviews.length > 0 && <Testimonials reviews={tour.reviews} />}
     </>
   );
 }

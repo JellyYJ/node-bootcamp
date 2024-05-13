@@ -116,3 +116,17 @@ export async function getLogInUser() {
     return null;
   }
 }
+
+export async function getUser(userId) {
+  try {
+    const response = await axios.get(hostUrl + `/api/v1/users/${userId}`);
+    // const tour = response;
+    if (response.data.status === "success") {
+      console.log(response);
+      // return response.data.data.doc;
+    }
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error retrieving the user from server");
+  }
+}
