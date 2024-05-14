@@ -156,6 +156,59 @@ export async function getUser(userId) {
   }
 }
 
+export async function updateMe({ name, email }) {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    const response = await axios({
+      method: "PATCH",
+      url: hostUrl + "/api/v1/users/updateMe",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      // headers: {
+      //   "Content-Type": "application/json",
+      // },
+      data: {
+        name,
+        email,
+      },
+    });
+
+    console.log(response);
+
+    if (response.data.status === "success") {
+      // return response.data.data.doc;
+    }
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error updating your info");
+  }
+}
+
+// exports.updateUserData = catchAsync(async (req, res, next) => {
+//   const updatedUser = await User.findByIdAndUpdate(
+//     req.user.id,
+//     {
+//       name: req.body.name,
+//       email: req.body.email,
+//     },
+//     {
+//       new: true,
+//       runValidators: true,
+//     }
+//   );
+
+//   res.status(200).render('account', {
+//     title: 'Your account',
+//     user: updatedUser,
+//   });
+// });
+
 // Stripe
 export async function getbookTourSession(tourId) {
   const stripe = await loadStripe(

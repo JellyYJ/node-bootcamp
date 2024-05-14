@@ -52,7 +52,7 @@ const Heading = styled.h1`
     ${(props) =>
       props.as === "h3" &&
       css`
-        margin-bottom: 1rem;
+        /* margin-bottom: 1rem; */
       `}
   }
 

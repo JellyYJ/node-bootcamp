@@ -85,8 +85,8 @@ function Header() {
 
             <NavItem href="/me">
               <ProfileImg
-                src={`/img/users/${user?.photo}`}
-                alt={`Photo of ${user?.name}`}
+                src={`/img/users/${user.photo}`}
+                alt={`Photo of ${user.name}`}
               />
               {/* <UserName>{user?.name?.split(" ")[0]}</UserName> */}
             </NavItem>

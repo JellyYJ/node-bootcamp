@@ -20,9 +20,9 @@ const Container = styled.div`
 const Button = styled.button`
   background-color: var(--color-green-400);
   border: none;
-  border-radius: 0%;
   color: var(--color-green-0);
   font-size: 2rem;
+  border-radius: 5px;
   padding: 1.5rem 2.5rem;
 `;
 
