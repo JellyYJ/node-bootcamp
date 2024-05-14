@@ -1,6 +1,7 @@
 // https://.../auth/signup
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useSignUp } from "./useSignup";
 
 const Main = styled.main`
   display: flex;
@@ -64,9 +65,15 @@ const Button = styled.button`
 `;
 
 function SignUp() {
+  const { isLoading, signup } = useSignUp();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -76,22 +83,44 @@ function SignUp() {
     setPassword(e.target.value);
   };
 
-  const handleConfirmPwdChange = (e) => {
-    setConfirmPwd(e.target.value);
+  const handlepasswordConfirmChange = (e) => {
+    setPasswordConfirm(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // CODE FOR SignUp
-    console.log("Email:", email);
-    console.log("Password:", password);
-  };
+  function handleSubmit(e) {
+    e.preventDefault(e);
+    if (!email || !password) return;
+
+    signup(
+      { name, email, password, passwordConfirm },
+      {
+        onSettled: () => {
+          setName("");
+          setEmail("");
+          setPassword("");
+          setPasswordConfirm("");
+        },
+      }
+    );
+  }
 
   return (
     <Main>
       <SignUpForm>
         <HeadingSecondary>Log into your account</HeadingSecondary>
         <form onSubmit={handleSubmit}>
+          <FormGroup>
+            <FormLabel htmlFor="name">Name</FormLabel>
+            <FormInput
+              id="name"
+              type="name"
+              placeholder="Name"
+              required
+              value={name}
+              onChange={handleNameChange}
+            />
+          </FormGroup>
+
           <FormGroup>
             <FormLabel htmlFor="email">Email address</FormLabel>
             <FormInput
@@ -124,8 +153,8 @@ function SignUp() {
               placeholder="********"
               required
               minLength="8"
-              value={confirmPwd}
-              onChange={handleConfirmPwdChange}
+              value={passwordConfirm}
+              onChange={handlepasswordConfirmChange}
             />
           </FormGroup>
           <FormGroup>

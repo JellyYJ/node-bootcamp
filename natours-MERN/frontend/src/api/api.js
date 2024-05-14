@@ -80,6 +80,32 @@ export async function logout() {
   }
 }
 
+export async function signup({ name, email, password, passwordConfirm }) {
+  try {
+    let response = await axios({
+      method: "POST",
+      url: hostUrl + "/api/v1/users/signup",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {
+        name,
+        email,
+        password,
+        passwordConfirm,
+      },
+    });
+    // localStorage.setItem("token", response.data.token);
+    console.log("signupAPI", response);
+
+    if (response.data.status === "success") {
+      // return response.data.data.user;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // User
 // export async function getLogInUser() {
 //   try {

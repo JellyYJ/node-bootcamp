@@ -94,7 +94,7 @@ function Header() {
         ) : (
           <>
             <NavItem href="/login">LOG IN</NavItem>
-            <NavItem href="#">SIGN UP</NavItem>
+            <NavItem href="/signup">SIGN UP</NavItem>
           </>
         )}
       </Nav>
