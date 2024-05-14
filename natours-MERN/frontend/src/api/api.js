@@ -49,7 +49,6 @@ export async function login({ email, password }) {
     localStorage.setItem("token", response.data.token);
 
     if (response.data.status === "success") {
-      alert("Successfully Login");
       return response.data.data.user;
     }
   } catch (err) {
@@ -74,7 +73,6 @@ export async function logout() {
     });
 
     if (response.status === 200) {
-      alert("You are logged out");
       localStorage.removeItem("token");
     }
   } catch (err) {
