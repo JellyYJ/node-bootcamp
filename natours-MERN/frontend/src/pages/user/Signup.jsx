@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useSignUp } from "./useSignup";
+import Input from "../../components/Input";
 
 const Main = styled.main`
   display: flex;
@@ -31,21 +32,6 @@ const FormLabel = styled.label`
   font-size: 1.6rem;
   margin-bottom: 1rem;
   display: block;
-`;
-
-const FormInput = styled.input`
-  font-size: 1.5rem;
-  width: 100%;
-  padding: 1.5rem 2rem;
-  border-radius: 5px;
-  border: none;
-  background-color: #fff;
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1);
-  transition: all 0.3s;
-
-  &:focus {
-    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.4);
-  }
 `;
 
 const Button = styled.button`
@@ -111,7 +97,7 @@ function SignUp() {
         <form onSubmit={handleSubmit}>
           <FormGroup>
             <FormLabel htmlFor="name">Name</FormLabel>
-            <FormInput
+            <Input
               id="name"
               type="name"
               placeholder="Name"
@@ -123,7 +109,7 @@ function SignUp() {
 
           <FormGroup>
             <FormLabel htmlFor="email">Email address</FormLabel>
-            <FormInput
+            <Input
               id="email"
               type="email"
               placeholder="user@example.com"
@@ -134,7 +120,7 @@ function SignUp() {
           </FormGroup>
           <FormGroup>
             <FormLabel htmlFor="password">Password</FormLabel>
-            <FormInput
+            <Input
               id="password"
               type="password"
               placeholder="********"
@@ -147,7 +133,7 @@ function SignUp() {
 
           <FormGroup>
             <FormLabel htmlFor="confirmPassword">Confirm Password</FormLabel>
-            <FormInput
+            <Input
               id="confirmPassword"
               type="password"
               placeholder="********"
