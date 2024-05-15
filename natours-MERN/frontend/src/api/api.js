@@ -243,6 +243,29 @@ export async function getMyBookings() {
   }
 }
 
+export async function getMyReviews() {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    const response = await axios.get(hostUrl + `/api/v1/users/my-reviews`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.data.status === "success") {
+      // console.log(response);
+      return response.data.data.reviews;
+    }
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error retrieving the user from server");
+  }
+}
+
 // Stripe
 export async function getbookTourSession(tourId) {
   const stripe = await loadStripe(
