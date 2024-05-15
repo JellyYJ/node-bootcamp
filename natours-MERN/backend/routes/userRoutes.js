@@ -17,6 +17,7 @@ router.use(authController.protect);
 router.patch('/updateMyPassword', authController.updatePassword);
 router.get('/me', userController.getMe, userController.getUser);
 router.get('/my-tours', userController.getMyTours);
+router.get('/my-reviews', userController.getMyReviews);
 
 router.patch(
   '/updateMe',
@@ -38,7 +39,5 @@ router
   .get(userController.getUser)
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
-
-// router.route('/:id/bookings').;
 
 module.exports = router;

@@ -4,6 +4,7 @@ const jimp = require('jimp');
 const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
 const Tour = require('../models/tourModel');
+const Review = require('../models/reviewModel');
 
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
@@ -136,9 +137,11 @@ exports.getAllUsers = factory.getAll(User);
 exports.getMyTours = catchAsync(async (req, res, next) => {
   // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
+
   // 2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: { $in: tourIDs } });
+  console.log(tours);
 
   if (!tours) {
     return next(new AppError('No booked tours found with this user', 404));
@@ -148,6 +151,27 @@ exports.getMyTours = catchAsync(async (req, res, next) => {
     status: 'success',
     data: {
       tours,
+    },
+  });
+});
+
+exports.getMyReviews = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings
+  const reviews = await Review.find({ user: req.user.id });
+  console.log(reviews);
+
+  // 2) Find tours with the returned IDs
+  // const tourIDs = bookings.map((el) => el.tour);
+  // const tours = await Tour.find({ _id: { $in: tourIDs } });
+
+  if (!reviews) {
+    return next(new AppError('No booked tours found with this user', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      reviews,
     },
   });
 });
