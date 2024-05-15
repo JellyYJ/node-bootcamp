@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateMe as updateMeAPI } from "../../api/api";
+import toast from "react-hot-toast";
 
 export function useUpdateMe() {
   const queryClient = useQueryClient();
@@ -7,8 +8,8 @@ export function useUpdateMe() {
   const { mutate: updateMe, isLoading: isUpdating } = useMutation({
     mutationFn: updateMeAPI,
     onSuccess: () => {
-      alert("The setting has been updated successfully");
-      queryClient.invalidateQueries({ queryKey: ["settings"] });
+      queryClient.invalidateQueries({ queryKey: ["accountSetting"] });
+      toast.success("You have updated your password");
     },
     onError: (err) => alert(err.message),
   });

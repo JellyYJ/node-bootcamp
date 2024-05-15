@@ -99,7 +99,7 @@ export async function signup({ name, email, password, passwordConfirm }) {
     console.log("signupAPI", response);
 
     if (response.data.status === "success") {
-      // return response.data.data.user;
+      return response.data.data.user;
     }
   } catch (err) {
     console.log(err);
@@ -107,17 +107,6 @@ export async function signup({ name, email, password, passwordConfirm }) {
 }
 
 // User
-// export async function getLogInUser() {
-//   try {
-//     const response = await axios.get(hostUrl + "/api/v1/users/me");
-//     console.log("getLoginUser");
-//     return response;
-//   } catch (err) {
-//     console.log(err);
-//     throw new Error("Error retrieving current user from server");
-//   }
-// }
-
 export async function getLogInUser() {
   try {
     const token = localStorage.getItem("token");
@@ -170,19 +159,14 @@ export async function updateMe({ name, email }) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      // headers: {
-      //   "Content-Type": "application/json",
-      // },
       data: {
         name,
         email,
       },
     });
-
-    console.log(response);
-
     if (response.data.status === "success") {
-      // return response.data.data.doc;
+      // console.log(response.data.data.user);
+      return response.data.data.user;
     }
   } catch (err) {
     console.log(err);
@@ -190,24 +174,40 @@ export async function updateMe({ name, email }) {
   }
 }
 
-// exports.updateUserData = catchAsync(async (req, res, next) => {
-//   const updatedUser = await User.findByIdAndUpdate(
-//     req.user.id,
-//     {
-//       name: req.body.name,
-//       email: req.body.email,
-//     },
-//     {
-//       new: true,
-//       runValidators: true,
-//     }
-//   );
+export async function updatePassword({
+  passwordCurrent,
+  password,
+  passwordConfirm,
+}) {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
 
-//   res.status(200).render('account', {
-//     title: 'Your account',
-//     user: updatedUser,
-//   });
-// });
+    const response = await axios({
+      method: "PATCH",
+      url: hostUrl + "/api/v1/users/updateMyPassword",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        passwordCurrent,
+        password,
+        passwordConfirm,
+      },
+    });
+
+    if (response.data.status === "success") {
+      console.log(response);
+      return response.data.data.user;
+    }
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error updating your password");
+  }
+}
 
 // Stripe
 export async function getbookTourSession(tourId) {
