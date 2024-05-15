@@ -9,16 +9,17 @@ const FormGroup = styled.div`
 `;
 
 const FormLabel = styled.label`
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
+  font-weight: 600;
   display: block;
 `;
 
 const Button = styled.button`
-  font-size: 1.6rem;
-  margin-top: 1.5rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
   border: none;
-  padding: 1.5rem 4rem;
+  padding: 1.2rem 2.4rem;
   border-radius: 5px;
   background-color: var(--color-green-800);
   color: #fff;
@@ -47,15 +48,7 @@ function AccountSetting({ curEmail, curName }) {
     e.preventDefault(e);
     if (!email || !name) return;
 
-    updateMe(
-      { name, email },
-      {
-        onSettled: () => {
-          setName("");
-          setEmail("");
-        },
-      }
-    );
+    updateMe({ name, email });
   }
 
   return (
@@ -87,7 +80,9 @@ function AccountSetting({ curEmail, curName }) {
         </FormGroup>
 
         <FormGroup>
-          <Button type="submit">Save Changes</Button>
+          <Button disabled={isUpdating} type="submit">
+            Save Changes
+          </Button>
         </FormGroup>
       </form>
     </div>
