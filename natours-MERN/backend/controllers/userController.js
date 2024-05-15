@@ -1,6 +1,10 @@
 const multer = require('multer');
 const jimp = require('jimp');
+
 const User = require('../models/userModel');
+const Booking = require('../models/bookingModel');
+const Tour = require('../models/tourModel');
+
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
@@ -125,3 +129,25 @@ exports.updateUser = factory.updateOne(User); // DO NOT change pwd
 exports.createUser = factory.createOne(User);
 exports.getUser = factory.getOne(User);
 exports.getAllUsers = factory.getAll(User);
+
+/**
+ * Get user's bookings/reviews
+ */
+exports.getMyTours = catchAsync(async (req, res, next) => {
+  // 1) Find all bookings
+  const bookings = await Booking.find({ user: req.user.id });
+  // 2) Find tours with the returned IDs
+  const tourIDs = bookings.map((el) => el.tour);
+  const tours = await Tour.find({ _id: { $in: tourIDs } });
+
+  if (!tours) {
+    return next(new AppError('No booked tours found with this user', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tours,
+    },
+  });
+});
