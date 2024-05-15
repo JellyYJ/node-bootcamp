@@ -8,6 +8,7 @@ const MainContainer = styled.div`
 `;
 
 function UserSettings({ user }) {
+  
   return (
     <MainContainer>
       <AccountSetting curEmail={user.email} curName={user.name} />

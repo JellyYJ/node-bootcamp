@@ -245,7 +245,25 @@ function SideNav({ role }) {
           )}
         </>
       ) : (
-        <UserNav />
+        <>
+          {isSmallScreen ? (
+            <ToggleButton onClick={toggle}>
+              <IoMdMenu />
+            </ToggleButton>
+          ) : (
+            <NavContainer>
+              <UserNav />
+            </NavContainer>
+          )}
+
+          {isSmallScreen && !isCollapse && (
+            <NavContainer>
+              <OverlayMenu>
+                <UserNav />
+              </OverlayMenu>
+            </NavContainer>
+          )}
+        </>
       )}
     </nav>
   );

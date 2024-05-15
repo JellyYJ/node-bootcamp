@@ -3,6 +3,7 @@ import SideNav from "../../components/SideNav";
 import Empty from "../../components/Empty";
 import styled from "styled-components";
 import UserSettings from "./UserSettings";
+import Spinner from "../../components/Spinner";
 
 const Container = styled.div`
   display: flex;
@@ -30,17 +31,15 @@ const MainContainer = styled.div`
 
 function Account() {
   const { isPending, user } = useUser();
+  if (isPending) return <Spinner />;
+  if (!user) return <Empty resourceName={"userProfile"} />;
 
   return (
     <Container>
-      {user ? (
-        <MainContainer>
-          <SideNav role={user.role}></SideNav>
-          <UserSettings user={user} />
-        </MainContainer>
-      ) : (
-        <Empty resourceName={"user"} />
-      )}
+      <MainContainer>
+        <SideNav role={user.role}></SideNav>
+        <UserSettings user={user} />
+      </MainContainer>
     </Container>
   );
 }
