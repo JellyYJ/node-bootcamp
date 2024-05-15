@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import Heading from "../../components/Heading";
-import { useUser } from "../user/useUser";
+import { useMe } from "../user/useMe";
 import { useNavigate } from "react-router-dom";
 import { getbookTourSession } from "../../api/api";
 
@@ -27,13 +27,13 @@ const Button = styled.button`
 `;
 
 function BookTour({ tourId, slug }) {
-  const { isPending, user } = useUser();
+  const { isPending, me } = useMe();
   const navigate = useNavigate();
 
   function handBookBtnClick(e) {
     e.preventDefault();
 
-    if (!user) navigate("/login");
+    if (!me) navigate("/login");
 
     // go to stripe
     getbookTourSession(tourId);

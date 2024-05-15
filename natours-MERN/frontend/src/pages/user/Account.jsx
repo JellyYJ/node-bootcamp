@@ -1,9 +1,11 @@
-import { useUser } from "./useUser";
+import styled from "styled-components";
+
 import SideNav from "../../components/SideNav";
 import Empty from "../../components/Empty";
-import styled from "styled-components";
 import UserSettings from "./UserSettings";
 import Spinner from "../../components/Spinner";
+
+import { useMe } from "./useMe";
 
 const Container = styled.div`
   display: flex;
@@ -30,15 +32,15 @@ const MainContainer = styled.div`
 `;
 
 function Account() {
-  const { isPending, user } = useUser();
+  const { isPending, me } = useMe();
   if (isPending) return <Spinner />;
-  if (!user) return <Empty resourceName={"userProfile"} />;
+  if (!me) return <Empty resourceName={"userProfile"} />;
 
   return (
     <Container>
       <MainContainer>
-        <SideNav role={user.role}></SideNav>
-        <UserSettings user={user} />
+        <SideNav role={me.role}></SideNav>
+        <UserSettings user={me} />
       </MainContainer>
     </Container>
   );

@@ -6,6 +6,7 @@ import Account from "./pages/user/Account";
 import TourDetails from "./pages/tour/TourDetails";
 import Login from "./pages/user/Login";
 import Signup from "./pages/user/Signup";
+import MyBookings from "./pages/user/MyBookings";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
@@ -35,6 +36,7 @@ function App() {
               <Route element={<Account />} path="me" />
               <Route element={<Login />} path="login" />
               <Route element={<Signup />} path="signup" />
+              <Route element={<MyBookings />} path="my-bookings" />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useUser } from "../pages/user/useUser";
+import { useMe } from "../pages/user/useMe";
 import { useLogout } from "../pages/user/useLogout";
 
 const HeaderWrapper = styled.header`
@@ -64,7 +64,7 @@ const LogoutButton = styled.button`
 `;
 
 function Header() {
-  const { isPending, user } = useUser();
+  const { isPending, me } = useMe();
   const { isLoggingout, logout } = useLogout();
 
   return (
@@ -72,7 +72,7 @@ function Header() {
       <LogoImg src="/logo-white.png" alt="Natours logo" />
       <Nav>
         <NavItem href="/">ALL TOURS</NavItem>
-        {user ? (
+        {me ? (
           <>
             <NavItem>
               <LogoutButton
@@ -85,8 +85,8 @@ function Header() {
 
             <NavItem href="/me">
               <ProfileImg
-                src={`/img/users/${user.photo}`}
-                alt={`Photo of ${user.name}`}
+                src={`/img/users/${me.photo}`}
+                alt={`Photo of ${me.name}`}
               />
               {/* <UserName>{user?.name?.split(" ")[0]}</UserName> */}
             </NavItem>

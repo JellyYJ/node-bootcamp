@@ -1,7 +1,8 @@
-import React from "react";
+import { useMyBookings } from "./useMyBookings";
+import TourCard from "../tour/TourCard";
+import Empty from "../../components/Empty";
+import Spinner from "../../components/Spinner";
 import styled from "styled-components";
-import TourCard from "./TourCard";
-import { useTours } from "./useTours";
 
 const CardContainer = styled.div`
   max-width: 130rem;
@@ -20,14 +21,17 @@ const CardContainer = styled.div`
   }
 `;
 
-function Overview() {
-  const { isPending, tours } = useTours();
+function MyBookings() {
+  const { isPneding, tours } = useMyBookings();
+
+  if (isPneding) return <Spinner />;
+  if (!tours) return <Empty resourceName={"Bookings"} />;
 
   return (
     <CardContainer>
-      <TourCard tours={tours} isPending={isPending} />
+      <TourCard tours={tours} />
     </CardContainer>
   );
 }
 
-export default Overview;
+export default MyBookings;

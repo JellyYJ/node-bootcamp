@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { getLogInUser } from "../../api/api";
+import { getUser } from "../../api/api";
 
-export function useUser() {
+export function useUser({ userId }) {
   const { isPending, data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: getLogInUser,
+    queryKey: ["user", userId],
+    queryFn: () => getUser(userId),
   });
+
   // console.log("from useUser:", user);
   return { isPending, user };
 }

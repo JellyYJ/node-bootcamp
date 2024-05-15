@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useTours } from "./useTours";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
 import { convertToMonthOnly } from "../../utils/dateConverter";
@@ -136,8 +135,7 @@ const Button = styled.a`
 `;
 
 // const TourCard = ({ tours }) => {
-function TourCard() {
-  const { isPending, tours } = useTours();
+function TourCard({ isPending, tours }) {
   // console.log(tours);
 
   if (isPending) return <Spinner />;
