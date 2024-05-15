@@ -7,15 +7,19 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 exports.getCheckOutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
-  // console.log(tour.slug);
+
+  // GET FRONTEND host
+  const frontendHost = req.query.frontendHost;
 
   // 2) Create checout session
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    success_url: `${req.protocol}://${req.get('host')}/?tour=${
-      req.params.tourId
-    }&user=${req.user.id}&price=${tour.price}`,
-    cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
+    success_url: `${frontendHost}`,
+    // success_url: `${req.protocol}://${req.get('host')}/?tour=${
+    //   req.params.tourId
+    // }&user=${req.user.id}&price=${tour.price}`,
+    cancel_url: `${frontendHost}/tours/${tour.id}`,
+    // cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
     mode: 'payment',
