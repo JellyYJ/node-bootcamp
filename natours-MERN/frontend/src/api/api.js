@@ -1,4 +1,6 @@
-import { server as hostUrl } from "../config";
+// import { server as hostUrl } from "../config";
+import { deployedServer as hostUrl } from "../config";
+
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
 
