@@ -3,6 +3,7 @@ import Heading from "../../components/Heading";
 import { useMe } from "../user/useMe";
 import { useNavigate } from "react-router-dom";
 import { getbookTourSession } from "../../api/api";
+import Spinner from "../../components/Spinner";
 
 const Container = styled.div`
   display: flex;
@@ -30,6 +31,8 @@ function BookTour({ tourId, slug }) {
   const { isPending, me } = useMe();
   const navigate = useNavigate();
 
+  if (isPending) return <Spinner />;
+
   function handBookBtnClick(e) {
     e.preventDefault();
 
@@ -43,7 +46,9 @@ function BookTour({ tourId, slug }) {
   return (
     <Container>
       <Heading as="h4">WHAT ARE YOU WAITING FOR?</Heading>
-      <Button onClick={handBookBtnClick}>Book The Tour</Button>
+      <Button disabled={isPending} onClick={handBookBtnClick}>
+        Book The Tour
+      </Button>
     </Container>
   );
 }
