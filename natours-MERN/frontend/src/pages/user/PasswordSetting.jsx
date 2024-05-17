@@ -108,7 +108,7 @@ function PasswordSetting() {
 
         <FormGroup>
           <Button disabled={isUpdating} type="submit" onClick={handleSubmit}>
-            Save Changes
+            {isUpdating ? "Saving..." : "Save Changes"}
           </Button>
         </FormGroup>
       </form>
