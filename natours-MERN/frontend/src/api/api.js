@@ -1,5 +1,5 @@
-// import { server as hostUrl } from "../config";
-import { deployedServer as hostUrl } from "../config";
+import { server as hostUrl } from "../config";
+// import { deployedServer as hostUrl } from "../config";
 
 import axios from "axios";
 import { loadStripe } from "@stripe/stripe-js";
@@ -221,7 +221,7 @@ export async function updatePassword({
   }
 }
 
-// Bookings
+// Bookings and reviews
 export async function getMyBookings() {
   try {
     const token = localStorage.getItem("token");
@@ -235,6 +235,7 @@ export async function getMyBookings() {
         Authorization: `Bearer ${token}`,
       },
     });
+
     if (response.data.status === "success") {
       // console.log(response);
       return response.data.data.tours;
@@ -268,6 +269,68 @@ export async function getMyReviews() {
   }
 }
 
+export async function createReview({ rating, review, tourId }) {
+  console.log("creatReviewAPI", tourId, rating, review);
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    let response = await axios({
+      method: "POST",
+      url: hostUrl + `/api/v1/tours/${tourId}/reviews`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        rating,
+        review,
+      },
+    });
+
+    console.log(response);
+    if (response.data.status === "success") {
+      return response.data.data.data;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function updateReview({ rating, review, reviewId }) {
+  console.log("updateReview", rating, review, reviewId);
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    let response = await axios({
+      method: "PATCH",
+      url: hostUrl + `/api/v1/reviews/${reviewId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        rating,
+        review,
+      },
+    });
+
+    if (response.data.status === "success") {
+      // console.log(response.data.data);
+      return response.data.data.doc;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // Stripe
 export async function getbookTourSession(tourId) {
   const stripe = await loadStripe(
@@ -290,7 +353,6 @@ export async function getbookTourSession(tourId) {
     } = await axios.get(
       hostUrl +
         `/api/v1/bookings/checkout-session/${tourId}?frontendHost=${frontendHost}`,
-
       {
         headers: {
           Authorization: `Bearer ${token}`,
