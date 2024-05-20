@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useMe } from "../pages/user/useMe";
 import { useLogout } from "../pages/user/useLogout";
+import { server as hostUrl } from "../config";
 
 const HeaderWrapper = styled.header`
   background-color: var(--color-grey-900);
@@ -85,7 +86,8 @@ function Header() {
 
             <NavItem href="/me">
               <ProfileImg
-                src={`/img/users/${me.photo}`}
+                src={`${hostUrl}/img/users/${me.photo}`}
+                // src={`/img/users/${me.photo}`}
                 alt={`Photo of ${me.name}`}
               />
               {/* <UserName>{user?.name?.split(" ")[0]}</UserName> */}

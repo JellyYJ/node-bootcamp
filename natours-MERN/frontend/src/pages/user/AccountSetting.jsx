@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Heading from "../../components/Heading";
 import Input from "../../components/Input";
 import { useUpdateMe } from "./useUpdateMe";
+import { server as hostUrl } from "../../config";
 
 const FormGroup = styled.div`
   margin-bottom: 2rem;
@@ -101,7 +102,11 @@ function AccountSetting({ curEmail, curName, curPic }) {
     updateMe(formData);
   };
 
-  const imageUrl = file ? URL.createObjectURL(file) : `/img/users/${curPic}`;
+  // const imageUrl = file ? URL.createObjectURL(file) : `/img/users/${curPic}`;
+  // Method2: get photo served from backend
+  const imageUrl = file
+    ? URL.createObjectURL(file)
+    : `${hostUrl}/img/users/${curPic}`;
 
   return (
     <div>

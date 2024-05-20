@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { convertToMonthOnly } from "../../utils/dateConverter";
 import TourFacts from "./TourFacts";
+import { server as hostUrl } from "../../config";
 
 const CardContainer = styled.div`
   background-color: var(--color-green-0);
@@ -131,14 +132,15 @@ const Button = styled.a`
   }
 `;
 
-function TourCard({ tour, isPending }) {
+function TourCard({ tour }) {
   return (
     <CardContainer key={tour.slug}>
       <CardHeader>
         <CardPicture>
           <CardPictureOverlay>&nbsp;</CardPictureOverlay>
           <CardPictureImg
-            src={`img/tours/${tour.imageCover}`}
+            src={`${hostUrl}/img/tours/${tour.imageCover}`}
+            // src={`img/tours/${tour.imageCover}`}
             alt={tour.name}
           />
         </CardPicture>
