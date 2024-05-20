@@ -8,7 +8,6 @@ import ReviewModal from "./Reviews/ReviewModal";
 
 import { useMyBookings } from "./useMyBookings";
 import { useMyReviews } from "./useMyReviews";
-import { useCreateReview } from "./Reviews/useCreateReview";
 import { useReviewActions } from "./Reviews/useReviewActions";
 
 const CardContainer = styled.div`
@@ -42,9 +41,14 @@ const BookingReviewItem = styled.div`
 function MyBookings() {
   const { isPending: isBookingsPending, tours } = useMyBookings();
   const { isPending: isReviewsPending, reviews } = useMyReviews();
-  // const { createReview, isCreating } = useCreateReview();
-  const { createReview, isCreating, updateReview, isUpdating } =
-    useReviewActions();
+  const {
+    createReview,
+    isCreating,
+    updateReview,
+    isUpdating,
+    deleteReview,
+    isDeleting,
+  } = useReviewActions();
 
   const [selectedTourId, setSelectedTourId] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
@@ -66,12 +70,14 @@ function MyBookings() {
 
   const handleSaveReview = (rating, review, tourId) => {
     createReview({ rating, review, tourId });
-    handleCloseModal();
   };
 
   const handleUpdateReview = (rating, review, reviewId) => {
     updateReview({ rating, review, reviewId });
-    handleCloseModal();
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    deleteReview({ reviewId });
   };
 
   if (isBookingsPending || isReviewsPending) return <Spinner />;
@@ -107,7 +113,7 @@ function MyBookings() {
           onClose={handleCloseModal}
           onSave={handleSaveReview}
           onUpdate={handleUpdateReview}
-          // onDelete={handleDeleteReview}
+          onDelete={handleDeleteReview}
         />
       )}
     </CardContainer>

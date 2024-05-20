@@ -69,13 +69,6 @@ function UserNav() {
         </li>
 
         <li>
-          <StyledNavLink to="/my-reviews">
-            <HiOutlineStar />
-            My Reviews
-          </StyledNavLink>
-        </li>
-
-        <li>
           <StyledNavLink to="/billing">
             <HiOutlineCreditCard />
             Billing

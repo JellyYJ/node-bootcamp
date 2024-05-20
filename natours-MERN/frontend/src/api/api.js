@@ -270,7 +270,7 @@ export async function getMyReviews() {
 }
 
 export async function createReview({ rating, review, tourId }) {
-  console.log("creatReviewAPI", tourId, rating, review);
+  // console.log("creatReviewAPI", tourId, rating, review);
 
   try {
     const token = localStorage.getItem("token");
@@ -301,7 +301,7 @@ export async function createReview({ rating, review, tourId }) {
 }
 
 export async function updateReview({ rating, review, reviewId }) {
-  console.log("updateReview", rating, review, reviewId);
+  // console.log("updateReview", rating, review, reviewId);
 
   try {
     const token = localStorage.getItem("token");
@@ -326,6 +326,28 @@ export async function updateReview({ rating, review, reviewId }) {
       // console.log(response.data.data);
       return response.data.data.doc;
     }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function deleteReview({ reviewId }) {
+  // console.log("deleteReview", reviewId);
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    await axios({
+      method: "DELETE",
+      url: hostUrl + `/api/v1/reviews/${reviewId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   } catch (err) {
     console.log(err);
   }
