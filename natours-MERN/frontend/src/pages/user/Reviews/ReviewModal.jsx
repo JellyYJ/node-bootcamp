@@ -48,6 +48,11 @@ const TextArea = styled.textarea`
   box-sizing: border-box;
 `;
 
+const ButtonGroup = styled.div`
+  display: "flex";
+  justify-content: flex-end;
+`;
+
 const SubmitButton = styled.button`
   padding: 1rem 2rem;
   background: var(--color-green-500);
@@ -106,10 +111,8 @@ function ReviewModal({ tourId, review, onClose, onSave, onUpdate, onDelete }) {
 
   const handleSubmit = () => {
     if (review) {
-      if (!content || !rating) return;
       onUpdate(rating, content, review.id);
     } else {
-      if (!content || !rating) return;
       onSave(rating, content, tourId);
     }
   };
@@ -165,12 +168,12 @@ function ReviewModal({ tourId, review, onClose, onSave, onUpdate, onDelete }) {
           onChange={(e) => setContent(e.target.value)}
         />
 
-        <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <SubmitButton onClick={handleSubmit} disabled={!content || rating}>
+        <ButtonGroup>
+          <SubmitButton onClick={handleSubmit} disabled={!content}>
             {review ? "Update" : "Submit"}
           </SubmitButton>
           {review && <DeleteButton onClick={handleDelete}>Delete</DeleteButton>}
-        </div>
+        </ButtonGroup>
       </ModalContainer>
     </ModalOverlay>
   );
