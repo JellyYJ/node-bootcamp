@@ -1,9 +1,11 @@
-import React from "react";
 import styled from "styled-components";
 import TourCard from "./TourCard";
 import { useTours } from "./useTours";
 
-const CardContainer = styled.div`
+import Empty from "../../components/Empty";
+import Spinner from "../../components/Spinner";
+
+const Container = styled.div`
   max-width: 130rem;
   margin: 0 auto;
   display: grid;
@@ -19,14 +21,33 @@ const CardContainer = styled.div`
     grid-template-columns: 1fr;
   }
 `;
+const CardContainer = styled.div`
+  background-color: var(--color-green-0);
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-0.5%);
+  }
+`;
 
 function Overview() {
   const { isPending, tours } = useTours();
 
+  if (isPending) return <Spinner />;
+  if (!tours) return <Empty resourceName="Tours" />;
+
   return (
-    <CardContainer>
-      <TourCard tours={tours} isPending={isPending} />
-    </CardContainer>
+    <Container>
+      {tours.map((tour) => (
+        <CardContainer key={tour.slug}>
+          <TourCard tour={tour} isPending={isPending} />
+        </CardContainer>
+      ))}
+    </Container>
   );
 }
 
