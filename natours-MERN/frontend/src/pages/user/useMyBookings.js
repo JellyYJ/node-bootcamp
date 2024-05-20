@@ -6,6 +6,6 @@ export function useMyBookings() {
     queryKey: ["tours"],
     queryFn: getMyBookings,
   });
-  console.log("from useMyBookings:", tours);
+  // console.log("from useMyBookings:", tours);
   return { isPending, tours };
 }

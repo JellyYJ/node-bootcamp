@@ -1,8 +1,14 @@
-import { useMyBookings } from "./useMyBookings";
+import styled from "styled-components";
+import { useState } from "react";
+
 import TourCard from "../tour/TourCard";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
-import styled from "styled-components";
+import ReviewModal from "./Reviews/ReviewModal";
+
+import { useMyBookings } from "./useMyBookings";
+import { useMyReviews } from "./useMyReviews";
+import { useReviewActions } from "./Reviews/useReviewActions";
 
 const CardContainer = styled.div`
   max-width: 130rem;
@@ -21,15 +27,95 @@ const CardContainer = styled.div`
   }
 `;
 
-function MyBookings() {
-  const { isPneding, tours } = useMyBookings();
+const BookingReviewContainer = styled.div`
+  display: flex;
+  gap: 2rem;
+`;
 
-  if (isPneding) return <Spinner />;
-  if (!tours) return <Empty resourceName={"Bookings"} />;
+const BookingReviewItem = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+`;
+
+function MyBookings() {
+  const { isPending: isBookingsPending, tours } = useMyBookings();
+  const { isPending: isReviewsPending, reviews } = useMyReviews();
+  const {
+    createReview,
+    isCreating,
+    updateReview,
+    isUpdating,
+    deleteReview,
+    isDeleting,
+  } = useReviewActions();
+
+  const [selectedTourId, setSelectedTourId] = useState(null);
+  const [isShowModal, setIsShowModal] = useState(false);
+
+  const handleViewReview = (tourId) => {
+    setSelectedTourId(tourId);
+    setIsShowModal(true);
+  };
+
+  const handleWriteReview = (tourId) => {
+    setSelectedTourId(tourId);
+    setIsShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedTourId(null);
+    setIsShowModal(false);
+  };
+
+  const handleSaveReview = (rating, review, tourId) => {
+    createReview({ rating, review, tourId });
+  };
+
+  const handleUpdateReview = (rating, review, reviewId) => {
+    updateReview({ rating, review, reviewId });
+  };
+
+  const handleDeleteReview = (reviewId) => {
+    deleteReview({ reviewId });
+  };
+
+  if (isBookingsPending || isReviewsPending) return <Spinner />;
+  if (!tours || tours.length === 0) return <Empty resourceName={"Bookings"} />;
 
   return (
     <CardContainer>
-      <TourCard tours={tours} />
+      {tours.map((tour) => {
+        const review = reviews.find((r) => r.tour === tour.id);
+
+        return (
+          <BookingReviewContainer key={tour.id}>
+            <BookingReviewItem>
+              <TourCard tour={tour} />
+              {review ? (
+                <button onClick={() => handleViewReview(tour.id)}>
+                  {isUpdating ? "Updating..." : "View Review"}
+                </button>
+              ) : (
+                <button onClick={() => handleWriteReview(tour.id)}>
+                  {isCreating ? "Uploading..." : "Write Review"}
+                </button>
+              )}
+            </BookingReviewItem>
+          </BookingReviewContainer>
+        );
+      })}
+
+      {isShowModal && (
+        <ReviewModal
+          tourId={selectedTourId}
+          review={reviews.find((r) => r.tour === selectedTourId)}
+          onClose={handleCloseModal}
+          onSave={handleSaveReview}
+          onUpdate={handleUpdateReview}
+          onDelete={handleDeleteReview}
+        />
+      )}
     </CardContainer>
   );
 }

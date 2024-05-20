@@ -41,7 +41,14 @@ exports.getCheckOutSession = catchAsync(async (req, res, next) => {
     ],
   });
 
-  // 3) Create session as response
+  // 3) Create booking (added after Frontend)
+  await Booking.create({
+    tour: req.params.tourId,
+    user: req.user.id,
+    price: tour.price,
+  });
+
+  // 4) Create session as response
   res.status(200).json({
     status: 'success',
     session,

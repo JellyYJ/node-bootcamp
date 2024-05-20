@@ -81,7 +81,7 @@ function AccountSetting({ curEmail, curName }) {
 
         <FormGroup>
           <Button disabled={isUpdating} type="submit">
-            Save Changes
+            {isUpdating ? "Saving..." : "Save Changes"}
           </Button>
         </FormGroup>
       </form>

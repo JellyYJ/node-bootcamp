@@ -13,7 +13,7 @@ function TourDetails() {
 
   if (isPending) return <Spinner />;
   if (!tour) return <Empty></Empty>;
-  console.log(tour);
+  // console.log(tour);
 
   return (
     <>

@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import Empty from "../../components/Empty";
-import Spinner from "../../components/Spinner";
+
 import { convertToMonthOnly } from "../../utils/dateConverter";
 import TourFacts from "./TourFacts";
 
@@ -25,8 +24,6 @@ const CardHeader = styled.div`
 `;
 
 const CardPicture = styled.div`
-  /* background-size: cover; */
-  /* background-blend-mode: screen; */
   width: 100%;
   height: 100%;
   clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
@@ -134,66 +131,50 @@ const Button = styled.a`
   }
 `;
 
-// const TourCard = ({ tours }) => {
-function TourCard({ isPending, tours }) {
-  // console.log(tours);
-
-  if (isPending) return <Spinner />;
-  if (!tours) return <Empty resourceName="Tours" />;
-
-  function handleClick(e) {
-    e.prevent();
-  }
-
+function TourCard({ tour, isPending }) {
   return (
-    <>
-      {tours.map((tour) => (
-        <CardContainer key={tour.slug}>
-          <CardHeader>
-            <CardPicture>
-              <CardPictureOverlay>&nbsp;</CardPictureOverlay>
-              <CardPictureImg
-                src={`img/tours/${tour.imageCover}`}
-                alt={tour.name}
-              />
-            </CardPicture>
-            <Heading>{tour.name}</Heading>
-          </CardHeader>
+    <CardContainer key={tour.slug}>
+      <CardHeader>
+        <CardPicture>
+          <CardPictureOverlay>&nbsp;</CardPictureOverlay>
+          <CardPictureImg
+            src={`img/tours/${tour.imageCover}`}
+            alt={tour.name}
+          />
+        </CardPicture>
+        <Heading>{tour.name}</Heading>
+      </CardHeader>
 
-          <CardDetails>
-            <CardSubHeading>
-              {`${tour.difficulty} ${tour.duration}-day tour`}
-            </CardSubHeading>
-            <CardText>{tour.summary}</CardText>
+      <CardDetails>
+        <CardSubHeading>
+          {`${tour.difficulty} ${tour.duration}-day tour`}
+        </CardSubHeading>
+        <CardText>{tour.summary}</CardText>
 
-            <TourFacts icon="map-pin" text={tour.startLocation.description} />
-            <TourFacts
-              icon="calendar"
-              text={convertToMonthOnly(tour.startDates[0])}
-            />
-            <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
-            <TourFacts icon="user" text={`${tour.maxGroupSize} people`} />
-          </CardDetails>
+        <TourFacts icon="map-pin" text={tour.startLocation.description} />
+        <TourFacts
+          icon="calendar"
+          text={convertToMonthOnly(tour.startDates[0])}
+        />
+        <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
+        <TourFacts icon="user" text={`${tour.maxGroupSize} people`} />
+      </CardDetails>
 
-          <CardFooter>
-            <CardFooterItems>
-              <CardFooterItem>
-                <CardFooterValue>{`$${tour.price}`}</CardFooterValue>
-                <CardFooterText>per person</CardFooterText>
-              </CardFooterItem>
+      <CardFooter>
+        <CardFooterItems>
+          <CardFooterItem>
+            <CardFooterValue>{`$${tour.price}`}</CardFooterValue>
+            <CardFooterText>per person</CardFooterText>
+          </CardFooterItem>
 
-              <CardFooterItem>
-                <CardFooterValue>{tour.ratingsAverage}</CardFooterValue>
-                <CardFooterText>{`ratings (${tour.ratingsQuantity})`}</CardFooterText>
-              </CardFooterItem>
-            </CardFooterItems>
-            <Button href={`/tours/${tour.id}`} onClick={handleClick}>
-              Details
-            </Button>
-          </CardFooter>
-        </CardContainer>
-      ))}
-    </>
+          <CardFooterItem>
+            <CardFooterValue>{tour.ratingsAverage}</CardFooterValue>
+            <CardFooterText>{`ratings (${tour.ratingsQuantity})`}</CardFooterText>
+          </CardFooterItem>
+        </CardFooterItems>
+        <Button href={`/tours/${tour.id}`}>Details</Button>
+      </CardFooter>
+    </CardContainer>
   );
 }
 
