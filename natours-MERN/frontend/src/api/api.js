@@ -157,7 +157,39 @@ export async function getUser(userId) {
   }
 }
 
-export async function updateMe({ name, email }) {
+// export async function updateMe({ name, email }) {
+//   // console.log("updateMeAPI: ", name, email, file);
+//   try {
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       console.log("Token not available");
+//       return null;
+//     }
+
+//     const response = await axios({
+//       method: "PATCH",
+//       url: hostUrl + "/api/v1/users/updateMe",
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "multipart/form-data",
+//       },
+//       data: {
+//         name,
+//         email,
+//         // file,
+//       },
+//     });
+//     if (response.data.status === "success") {
+//       // console.log(response.data.data.user);
+//       return response.data.data.user;
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error("Error updating your info");
+//   }
+// }
+
+export async function updateMe(formData) {
   try {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -167,17 +199,15 @@ export async function updateMe({ name, email }) {
 
     const response = await axios({
       method: "PATCH",
-      url: hostUrl + "/api/v1/users/updateMe",
+      url: `${hostUrl}/api/v1/users/updateMe`,
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
-      data: {
-        name,
-        email,
-      },
+      data: formData,
     });
+
     if (response.data.status === "success") {
-      // console.log(response.data.data.user);
       return response.data.data.user;
     }
   } catch (err) {

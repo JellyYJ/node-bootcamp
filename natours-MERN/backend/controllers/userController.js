@@ -1,5 +1,7 @@
 const multer = require('multer');
 const jimp = require('jimp');
+const fs = require('fs');
+const path = require('path');
 
 const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
@@ -46,7 +48,27 @@ const upload = multer({
 }).single('photo');
 exports.uploadUserPhoto = upload;
 
-// Resize Photo
+// // Resize Photo
+// exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
+//   console.log('resize: ', req.file);
+
+//   if (!req.file) {
+//     return next();
+//   }
+//   try {
+//     const image = await jimp.read(req.file.buffer); // Read image buffer with jimp
+//     await image.resize(500, 500);
+//     await image.quality(90);
+//     const filename = `user-${req.user._id}-${Date.now()}.jpg`;
+//     await image.writeAsync(`public/img/users/${filename}`);
+//     req.file.filename = filename;
+//     next();
+//   } catch (err) {
+//     return next(new AppError('Error resizing image', 400));
+//   }
+// });
+
+// Resize Photo_copy newly added photo to frontend folder
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   if (!req.file) {
     return next();
@@ -56,7 +78,22 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
     await image.resize(500, 500);
     await image.quality(90);
     const filename = `user-${req.user._id}-${Date.now()}.jpg`;
-    await image.writeAsync(`public/img/users/${filename}`);
+    const filepath = path.join('public/img/users', filename);
+    await image.writeAsync(filepath);
+
+    // Copy to frontend public directory
+    const frontendPath = path.join(
+      __dirname,
+      '../../frontend/public/img/users',
+      filename
+    );
+    fs.copyFile(filepath, frontendPath, (err) => {
+      if (err) {
+        console.error('Error copying file to frontend:', err);
+        return next(new AppError('Error copying file', 500));
+      }
+    });
+
     req.file.filename = filename;
     next();
   } catch (err) {

@@ -10,9 +10,14 @@ const MainContainer = styled.div`
 `;
 
 function UserSettings({ user }) {
+  // console.log(user);
   return (
     <MainContainer>
-      <AccountSetting curEmail={user.email} curName={user.name} />
+      <AccountSetting
+        curEmail={user.email}
+        curName={user.name}
+        curPic={user.photo}
+      />
       <SplitComponent />
       <PasswordSetting />
     </MainContainer>
