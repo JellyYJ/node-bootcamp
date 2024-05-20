@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { server as hostUrl } from "../../config";
 
 const ReviewContainer = styled.div`
   display: flex;
@@ -59,7 +60,7 @@ function TestimonialCard({ user, reviewtext, rating }) {
 
   return (
     <ReviewContainer>
-      <UserPhoto src={`/img/users/${photo}`} alt={name} />
+      <UserPhoto src={`${hostUrl}/img/users/${photo}`} alt={name} />
       <ReviewContent>
         <ReviewText>{reviewtext}</ReviewText>
         <Rating>{renderStars(rating)}</Rating>
