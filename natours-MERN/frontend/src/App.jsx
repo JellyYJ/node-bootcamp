@@ -10,6 +10,7 @@ import MyBookings from "./pages/user/MyBookings";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "react-hot-toast";
+import ManageTours from "./pages/user/admin/ManageTours";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,6 +38,7 @@ function App() {
               <Route element={<Login />} path="login" />
               <Route element={<Signup />} path="signup" />
               <Route element={<MyBookings />} path="my-bookings" />
+              <Route element={<ManageTours />} path="manage-tours" />
             </Route>
           </Routes>
         </BrowserRouter>

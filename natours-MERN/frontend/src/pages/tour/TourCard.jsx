@@ -153,12 +153,20 @@ function TourCard({ tour }) {
         </CardSubHeading>
         <CardText>{tour.summary}</CardText>
 
-        <TourFacts icon="map-pin" text={tour.startLocation.description} />
-        <TourFacts
-          icon="calendar"
-          text={convertToMonthOnly(tour.startDates[0])}
-        />
-        <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
+        {tour.startLocation && (
+          <TourFacts icon="map-pin" text={tour.startLocation.description} />
+        )}
+
+        {tour.startDates[0] && (
+          <TourFacts
+            icon="calendar"
+            text={convertToMonthOnly(tour.startDates[0])}
+          />
+        )}
+
+        {tour.locations && (
+          <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
+        )}
         <TourFacts icon="user" text={`${tour.maxGroupSize} people`} />
       </CardDetails>
 

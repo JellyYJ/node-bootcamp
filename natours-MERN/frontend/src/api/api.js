@@ -32,6 +32,94 @@ export async function getTour(tourId) {
   }
 }
 
+export async function createTour(tourData) {
+  // console.log(tourData);
+  const {
+    name,
+    duration,
+    maxGroupSize,
+    difficulty,
+    price,
+    summary,
+    // imageCover,
+  } = tourData;
+
+  console.log(
+    name,
+    duration,
+    maxGroupSize,
+    difficulty,
+    price,
+    summary
+    // imageCover
+  );
+
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    const response = await axios({
+      method: "POST",
+      url: `${hostUrl}/api/v1/tours`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        name,
+        duration,
+        maxGroupSize,
+        difficulty,
+        price,
+        summary,
+        // imageCover,
+      },
+    });
+
+    if (response.data.status === "success") {
+      return response.data.data.data;
+    } else {
+      console.log("Response status is not success");
+      return null;
+    }
+  } catch (err) {
+    console.log("Error creating tour:", err);
+    return null;
+  }
+}
+
+export async function updateTour({ formData, tourId }) {
+  const { images } = formData;
+  console.log(images);
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    const response = await axios({
+      method: "PATCH",
+      url: `${hostUrl}/api/v1/tours/${tourId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+      data: formData,
+    });
+
+    if (response.data.status === "success") {
+      console.log(response.data.data.doc);
+      return response.data.data.doc;
+    }
+  } catch (err) {
+    console.log(err);
+    throw new Error("Error updating your info");
+  }
+}
+
 // Auth
 export async function login({ email, password }) {
   try {
@@ -97,7 +185,6 @@ export async function signup({ name, email, password, passwordConfirm }) {
         passwordConfirm,
       },
     });
-    // localStorage.setItem("token", response.data.token);
     console.log("signupAPI", response);
 
     if (response.data.status === "success") {
@@ -112,7 +199,6 @@ export async function signup({ name, email, password, passwordConfirm }) {
 export async function getLogInUser() {
   try {
     const token = localStorage.getItem("token");
-    // console.log("getToken", token);
     if (!token) {
       console.log("Token not available");
       return null;
@@ -156,38 +242,6 @@ export async function getUser(userId) {
     throw new Error("Error retrieving the user from server");
   }
 }
-
-// export async function updateMe({ name, email }) {
-//   // console.log("updateMeAPI: ", name, email, file);
-//   try {
-//     const token = localStorage.getItem("token");
-//     if (!token) {
-//       console.log("Token not available");
-//       return null;
-//     }
-
-//     const response = await axios({
-//       method: "PATCH",
-//       url: hostUrl + "/api/v1/users/updateMe",
-//       headers: {
-//         Authorization: `Bearer ${token}`,
-//         "Content-Type": "multipart/form-data",
-//       },
-//       data: {
-//         name,
-//         email,
-//         // file,
-//       },
-//     });
-//     if (response.data.status === "success") {
-//       // console.log(response.data.data.user);
-//       return response.data.data.user;
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     throw new Error("Error updating your info");
-//   }
-// }
 
 export async function updateMe(formData) {
   try {
@@ -300,8 +354,6 @@ export async function getMyReviews() {
 }
 
 export async function createReview({ rating, review, tourId }) {
-  // console.log("creatReviewAPI", tourId, rating, review);
-
   try {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -331,8 +383,6 @@ export async function createReview({ rating, review, tourId }) {
 }
 
 export async function updateReview({ rating, review, reviewId }) {
-  // console.log("updateReview", rating, review, reviewId);
-
   try {
     const token = localStorage.getItem("token");
     if (!token) {
