@@ -146,6 +146,7 @@ function UpdateTourForm({ tour, onUpdate, onClose, isUpdating }) {
     formData.append("duration", duration);
     formData.append("maxGroupSize", maxGroupSize);
     formData.append("difficulty", difficulty);
+    formData.append("summary", summary);
     formData.append("price", price);
     if (imageCover) {
       formData.append("imageCover", imageCover);

@@ -89,8 +89,6 @@ export async function createTour(tourData) {
 }
 
 export async function updateTour({ formData, tourId }) {
-  const { images } = formData;
-  console.log(images);
   try {
     const token = localStorage.getItem("token");
     if (!token) {
