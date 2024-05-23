@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTour as createTourAPI } from "../../../api/api";
+import { createTour as createTourAPI } from "../../../api/tourApi";
 import toast from "react-hot-toast";
 
 export function useCreateTour() {

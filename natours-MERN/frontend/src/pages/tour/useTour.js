@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
-import { getTour } from "../../api/api";
+import { getTour } from "../../api/tourApi";
 
 export function useTour() {
   const { tourId } = useParams();

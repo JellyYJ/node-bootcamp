@@ -3,7 +3,7 @@ import {
   createReview as createReviewAPI,
   updateReview as updateReviewAPI,
   deleteReview as deleteReviewAPI,
-} from "../../../api/api";
+} from "../../../api/reviewApi";
 import toast from "react-hot-toast";
 
 export function useReviewActions() {
