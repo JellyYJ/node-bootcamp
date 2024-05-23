@@ -111,6 +111,84 @@ export async function createUser(userData) {
   }
 }
 
+// export async function updateUser({ name, email, role, userId }) {
+//   try {
+//     const token = localStorage.getItem("token");
+//     if (!token) {
+//       console.log("Token not available");
+//       return null;
+//     }
+
+//     const response = await axios({
+//       method: "PATCH",
+//       url: `${hostUrl}/api/v1/users/${userId}`,
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "multipart/form-data",
+//       },
+//       data: formData,
+//     });
+
+//     console.log(response.data.data.doc);
+//     if (response.data.status === "success") {
+//       return response.data.data.doc;
+//     }
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error("Error updating user info");
+//   }
+// }
+
+export async function updateUser({ name, email, role, userId }) {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    let response = await axios({
+      method: "PATCH",
+      url: hostUrl + `/api/v1/users/${userId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        name,
+        email,
+        role,
+      },
+    });
+
+    if (response.data.status === "success") {
+      // console.log(response.data.data);
+      return response.data.data.doc;
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export async function deactivateUser({ userId }) {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    await axios({
+      method: "DELETE",
+      url: hostUrl + `/api/v1/users/${userId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 // Logged In User
 export async function updateMe(formData) {
   try {
