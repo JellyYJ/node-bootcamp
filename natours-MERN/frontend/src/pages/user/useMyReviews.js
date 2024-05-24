@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMyReviews } from "../../api/api";
+import { getMyReviews } from "../../api/reviewApi";
 
 export function useMyReviews() {
   const { isPending, data: reviews } = useQuery({

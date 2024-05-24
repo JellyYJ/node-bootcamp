@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Heading from "../../components/Heading";
 import { useMe } from "../user/useMe";
 import { useNavigate } from "react-router-dom";
-import { getbookTourSession } from "../../api/api";
+import { getbookTourSession } from "../../api/stripe";
 import Spinner from "../../components/Spinner";
 
 const Container = styled.div`

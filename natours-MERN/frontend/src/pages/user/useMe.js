@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getLogInUser } from "../../api/api";
+import { getLogInUser } from "../../api/userApi";
 
 export function useMe() {
   const { isPending, data: me } = useQuery({

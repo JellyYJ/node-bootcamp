@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { server as hostUrl } from "../../config";
 
 const SectionPictures = styled.section`
   display: flex;
@@ -25,7 +26,10 @@ export default function TourPictures({ images }) {
     <SectionPictures>
       {images.map((image, index) => (
         <ImagesContainer key={index}>
-          <Image src={`/img/tours/${image}`} alt={`image-${index + 1}`} />
+          <Image
+            src={`${hostUrl}/img/tours/${image}`}
+            alt={`image-${index + 1}`}
+          />
         </ImagesContainer>
       ))}
     </SectionPictures>

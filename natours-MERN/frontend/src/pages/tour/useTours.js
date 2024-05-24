@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getToursData } from "../../api/api";
+import { getToursData } from "../../api/tourApi";
 
 export function useTours() {
   const {

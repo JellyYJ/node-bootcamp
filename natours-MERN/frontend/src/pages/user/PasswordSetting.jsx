@@ -68,7 +68,7 @@ function PasswordSetting() {
   // passwordCurrent, password, passwordConfirm
   return (
     <div>
-      <Heading as="h3">Your Account Settings</Heading>
+      <Heading as="h3">Change Your Password</Heading>
       <form onSubmit={handleSubmit}>
         <FormGroup>
           <FormLabel htmlFor="passwordCurrent">Current Password</FormLabel>

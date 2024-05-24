@@ -11,9 +11,8 @@ const StyledError = styled.main`
 `;
 
 const Box = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
+  background-color: var(--color-green-0);
+  border: 1px solid var(--color-green-100);
   border-radius: var(--border-radius-md);
 
   padding: 4.8rem;
