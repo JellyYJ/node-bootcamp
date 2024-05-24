@@ -30,7 +30,7 @@ function Table({ users }) {
   };
 
   const handleDelete = (userId) => {
-    deleteUser({ userId });
+    deleteUser(userId);
   };
 
   const handleCloseModal = () => {

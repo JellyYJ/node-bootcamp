@@ -86,7 +86,7 @@ export async function updateReview({ rating, review, reviewId }) {
   }
 }
 
-export async function deleteReview({ reviewId }) {
+export async function deleteReview(reviewId) {
   try {
     const token = localStorage.getItem("token");
     if (!token) {

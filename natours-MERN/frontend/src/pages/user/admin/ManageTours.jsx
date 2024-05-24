@@ -1,8 +1,9 @@
+// src/pages/ManageTours.js
+
 import { useState } from "react";
 import styled from "styled-components";
 import { useTours } from "../../tour/useTours";
-import { useCreateTour } from "./useTourActions";
-import { useUpdateTour } from "./useUpdateTour";
+import { useTourActions } from "./useTourActions";
 
 import TourCard from "../../tour/TourCard";
 import Spinner from "../../../components/Spinner";
@@ -95,25 +96,28 @@ const ActionButton = styled.button`
 
 function ManageTours() {
   const { isPending, tours } = useTours();
-  const { isCreating, createTour } = useCreateTour();
-  const { isUpdating, updateTour } = useUpdateTour();
+  const {
+    isCreating,
+    createTour,
+    isUpdating,
+    updateTour,
+    isDeleting,
+    deleteTour,
+  } = useTourActions();
 
   const [selectedTour, setSelectedTour] = useState(null);
-
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
-  const handleAdd = () => {
+  const onAdd = () => {
     setSelectedTour(null);
     setShowAddModal(true);
   };
 
-  const handleEdit = (tour) => {
+  const onEdit = (tour) => {
     setSelectedTour(tour);
     setShowUpdateModal(true);
   };
-
-  const handleDelete = (tourId) => {};
 
   const handleSave = (tourData) => {
     createTour(tourData);
@@ -130,6 +134,16 @@ function ManageTours() {
     setShowUpdateModal(false);
   };
 
+  const handleDelete = (tourId) => {
+    console.log(tourId);
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this tour?"
+    );
+    if (confirmed) {
+      deleteTour(tourId);
+    }
+  };
+
   if (isPending) return <Spinner />;
   if (!tours) return <Empty resourceName="Tours" />;
 
@@ -137,14 +151,14 @@ function ManageTours() {
     <Container>
       <Header>
         <Heading as="h4">Manage Tours</Heading>
-        <AddButton onClick={handleAdd}>Add New Tour</AddButton>
+        <AddButton onClick={onAdd}>Add New Tour</AddButton>
       </Header>
       <GridContainer>
         {tours.map((tour) => (
           <CardContainer key={tour.slug}>
             <TourCard tour={tour} />
             <ActionButtons>
-              <ActionButton onClick={() => handleEdit(tour)}>Edit</ActionButton>
+              <ActionButton onClick={() => onEdit(tour)}>Edit</ActionButton>
               <ActionButton onClick={() => handleDelete(tour.id)}>
                 Delete
               </ActionButton>

@@ -77,7 +77,7 @@ function MyBookings() {
   };
 
   const handleDeleteReview = (reviewId) => {
-    deleteReview({ reviewId });
+    deleteReview(reviewId);
   };
 
   if (isBookingsPending || isReviewsPending) return <Spinner />;

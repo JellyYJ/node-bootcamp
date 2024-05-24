@@ -169,7 +169,7 @@ export async function updateUser({ name, email, role, userId }) {
   }
 }
 
-export async function deactivateUser({ userId }) {
+export async function deactivateUser(userId) {
   try {
     const token = localStorage.getItem("token");
     if (!token) {

@@ -1,11 +1,15 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createTour as createTourAPI } from "../../../api/tourApi";
+import {
+  createTour as createTourAPI,
+  updateTour as updateTourAPI,
+  deleteTour as deleteTourAPI,
+} from "../../../api/tourApi";
 import toast from "react-hot-toast";
 
-export function useCreateTour() {
+export function useTourActions() {
   const queryClient = useQueryClient();
 
-  const { mutate: createTour, isLoading: isCreating } = useMutation({
+  const createTourMutation = useMutation({
     mutationFn: createTourAPI,
     onSuccess: (newTour) => {
       if (newTour) {
@@ -19,5 +23,36 @@ export function useCreateTour() {
     },
   });
 
-  return { createTour, isCreating };
+  const updateTourMutation = useMutation({
+    mutationFn: ({ formData, tourId }) => updateTourAPI({ formData, tourId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tours"] });
+      toast.success("You have updated the tour successfully");
+    },
+    onError: (err) => {
+      console.error("ERROR", err);
+      toast.error("Failed to update the tour");
+    },
+  });
+
+  const deleteTourMutation = useMutation({
+    mutationFn: (tourId) => deleteTourAPI(tourId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["tours"] });
+      toast.success("You have deleted the tour successfully");
+    },
+    onError: (err) => {
+      console.log("ERROR", err);
+      toast.error("Failed to delete the tour");
+    },
+  });
+
+  return {
+    createTour: createTourMutation.mutate,
+    isCreating: createTourMutation.isLoading,
+    updateTour: updateTourMutation.mutate,
+    isUpdating: updateTourMutation.isLoading,
+    deleteTour: deleteTourMutation.mutate,
+    isDeleting: deleteTourMutation.isLoading,
+  };
 }

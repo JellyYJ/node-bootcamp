@@ -28,6 +28,7 @@ export function useUserActions() {
       toast.success("You have deleted the user successfully");
     },
     onError: (err) => {
+      console.log("ERROR", err);
       toast.error("Failed to delete the user");
     },
   });

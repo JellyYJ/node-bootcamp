@@ -115,3 +115,23 @@ export async function updateTour({ formData, tourId }) {
     throw new Error("Error updating your info");
   }
 }
+
+export async function deleteTour(tourId) {
+  try {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("Token not available");
+      return null;
+    }
+
+    await axios({
+      method: "DELETE",
+      url: hostUrl + `/api/v1/tours/${tourId}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
