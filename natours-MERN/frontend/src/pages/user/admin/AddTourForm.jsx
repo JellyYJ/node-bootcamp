@@ -1,7 +1,7 @@
+import React, { useState } from "react";
 import styled from "styled-components";
-import Input from "../../../components/Input";
-import { useEffect, useState } from "react";
 import Heading from "../../../components/Heading";
+import Input from "../../../components/Input";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -93,40 +93,50 @@ const SubmitButton = styled.button`
   }
 `;
 
-function AddTourForm({ tour, onSave, onClose, isCreating }) {
-  const [name, setName] = useState("");
-  const [duration, setDuration] = useState(0);
-  const [maxGroupSize, setMaxGroupSize] = useState(0);
-  const [difficulty, setDifficulty] = useState("");
-  const [price, setPrice] = useState(0);
-  const [summary, setSummary] = useState("");
-  // const [imageCover, setImageCover] = useState("");
+const Select = styled.select`
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #fff;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s;
 
-  useEffect(() => {
-    if (tour) {
-      setName(tour.name);
-      setDuration(tour.duration);
-      setMaxGroupSize(tour.maxGroupSize);
-      setDifficulty(tour.difficulty);
-      setPrice(tour.price);
-      setSummary(tour.summary);
-      // setImageCover(tour.imageCover);
-    }
-  }, [tour]);
+  &:focus {
+    box-shadow: var(--shadow-lg);
+    outline: none;
+  }
+`;
+
+function AddTourForm({ onSave, onClose, isCreating }) {
+  const [name, setName] = useState("");
+  const [duration, setDuration] = useState("");
+  const [maxGroupSize, setMaxGroupSize] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [price, setPrice] = useState("");
+  const [summary, setSummary] = useState("");
+
+  const isNameValid = name.length >= 10;
+  const isDurationValid = /^\d+$/.test(duration) && parseInt(duration) >= 0;
+  const isMaxGroupSizeValid =
+    /^\d+$/.test(maxGroupSize) && parseInt(maxGroupSize) >= 0;
+  const isPriceValid = /^\d+$/.test(price) && parseInt(price) >= 0;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const tourData = {
-      name,
-      duration,
-      maxGroupSize,
-      difficulty,
-      price,
-      summary,
-      // imageCover,
-    };
-
-    onSave(tourData);
+    if (isNameValid && isDurationValid && isMaxGroupSizeValid && isPriceValid) {
+      const tourData = {
+        name,
+        duration: parseInt(duration),
+        maxGroupSize: parseInt(maxGroupSize),
+        difficulty,
+        price: parseInt(price),
+        summary,
+      };
+      onSave(tourData);
+    } else {
+      return;
+    }
   };
 
   return (
@@ -145,6 +155,8 @@ function AddTourForm({ tour, onSave, onClose, isCreating }) {
               placeholder="Tour Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              minLength={10}
+              required
             />
           </FormGroup>
 
@@ -152,10 +164,13 @@ function AddTourForm({ tour, onSave, onClose, isCreating }) {
             <FormGroup>
               <FormLabel>Duration</FormLabel>
               <Input
-                type="text"
+                type="number"
                 placeholder="Duration"
                 value={duration}
                 onChange={(e) => setDuration(e.target.value)}
+                min={1}
+                step={1}
+                required
               />
             </FormGroup>
 
@@ -166,17 +181,24 @@ function AddTourForm({ tour, onSave, onClose, isCreating }) {
                 placeholder="Max Group Size"
                 value={maxGroupSize}
                 onChange={(e) => setMaxGroupSize(e.target.value)}
+                min={1}
+                step={1}
+                required
               />
             </FormGroup>
 
             <FormGroup>
               <FormLabel>Difficulty</FormLabel>
-              <Input
-                type="text"
-                placeholder="Difficulty"
+              <Select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
-              />
+                required
+              >
+                <option value="">Select difficulty</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="difficult">Difficult</option>
+              </Select>
             </FormGroup>
 
             <FormGroup>
@@ -186,6 +208,9 @@ function AddTourForm({ tour, onSave, onClose, isCreating }) {
                 placeholder="Price"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
+                min={1}
+                step={1}
+                required
               />
             </FormGroup>
           </FormSection>
