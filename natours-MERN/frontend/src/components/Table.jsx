@@ -64,6 +64,7 @@ function Table({ users }) {
           onUpdate={handleUpdate}
           onDelete={handleDelete}
           isUpdating={isUpdating}
+          isDeleting={isDeleting}
         />
       )}
     </div>

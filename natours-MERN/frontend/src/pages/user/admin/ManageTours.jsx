@@ -135,7 +135,7 @@ function ManageTours() {
   };
 
   const handleDelete = (tourId) => {
-    console.log(tourId);
+    // console.log(tourId);
     const confirmed = window.confirm(
       "Are you sure you want to delete this tour?"
     );
@@ -159,7 +159,10 @@ function ManageTours() {
             <TourCard tour={tour} />
             <ActionButtons>
               <ActionButton onClick={() => onEdit(tour)}>Edit</ActionButton>
-              <ActionButton onClick={() => handleDelete(tour.id)}>
+              <ActionButton
+                disabled={isDeleting}
+                onClick={() => handleDelete(tour.id)}
+              >
                 Delete
               </ActionButton>
             </ActionButtons>

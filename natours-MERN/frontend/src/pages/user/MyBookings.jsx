@@ -41,14 +41,8 @@ const BookingReviewItem = styled.div`
 function MyBookings() {
   const { isPending: isBookingsPending, tours } = useMyBookings();
   const { isPending: isReviewsPending, reviews } = useMyReviews();
-  const {
-    createReview,
-    isCreating,
-    updateReview,
-    isUpdating,
-    deleteReview,
-    isDeleting,
-  } = useReviewActions();
+  const { createReview, isCreating, updateReview, isUpdating, deleteReview } =
+    useReviewActions();
 
   const [selectedTourId, setSelectedTourId] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
