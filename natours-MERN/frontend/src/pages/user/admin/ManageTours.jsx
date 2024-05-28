@@ -1,9 +1,9 @@
-// src/pages/ManageTours.js
-
-import { useState } from "react";
 import styled from "styled-components";
+
+import { useEffect, useState } from "react";
 import { useTours } from "../../tour/useTours";
 import { useTourActions } from "./useTourActions";
+import { getToursByDistance } from "../../../api/tourApi";
 
 import TourCard from "../../tour/TourCard";
 import Spinner from "../../../components/Spinner";
@@ -11,6 +11,8 @@ import Empty from "../../../components/Empty";
 import Heading from "../../../components/Heading";
 import AddTourForm from "./AddTourForm";
 import UpdateTourForm from "./UpdateTourForm";
+import TourFilters from "../../tour/TourFilters";
+import { filterTours, sortTours } from "../../../utils/tourUtils";
 
 const Container = styled.div`
   max-width: 130rem;
@@ -95,7 +97,7 @@ const ActionButton = styled.button`
 `;
 
 function ManageTours() {
-  const { isPending, tours } = useTours();
+  const { isPending, tours = [] } = useTours();
   const {
     isCreating,
     createTour,
@@ -108,6 +110,33 @@ function ManageTours() {
   const [selectedTour, setSelectedTour] = useState(null);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("none");
+  const [filterDifficulty, setFilterDifficulty] = useState("all");
+  const [distanceTours, setDistanceTours] = useState([]);
+
+  useEffect(() => {
+    const getUserLocation = () => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          fetchTours(latitude, longitude);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    };
+
+    getUserLocation();
+  }, []);
+
+  const fetchTours = async (latitude, longitude) => {
+    const toursByDistance = await getToursByDistance(latitude, longitude);
+    setDistanceTours(toursByDistance);
+  };
 
   const onAdd = () => {
     setSelectedTour(null);
@@ -135,7 +164,6 @@ function ManageTours() {
   };
 
   const handleDelete = (tourId) => {
-    // console.log(tourId);
     const confirmed = window.confirm(
       "Are you sure you want to delete this tour?"
     );
@@ -143,6 +171,14 @@ function ManageTours() {
       deleteTour(tourId);
     }
   };
+
+  // FILTERS AND SORTING
+  const filteredTours = filterTours(
+    distanceTours.length ? distanceTours : tours,
+    searchQuery,
+    filterDifficulty
+  );
+  const filteredAndSortedTours = sortTours(filteredTours, sortOrder);
 
   if (isPending) return <Spinner />;
   if (!tours) return <Empty resourceName="Tours" />;
@@ -153,10 +189,21 @@ function ManageTours() {
         <Heading as="h4">Manage Tours</Heading>
         <AddButton onClick={onAdd}>Add New Tour</AddButton>
       </Header>
+
+      <TourFilters
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        sortOrder={sortOrder}
+        setSortOrder={setSortOrder}
+        filterDifficulty={filterDifficulty}
+        setFilterDifficulty={setFilterDifficulty}
+      />
+
       <GridContainer>
-        {tours.map((tour) => (
+        {filteredAndSortedTours.map((tour) => (
           <CardContainer key={tour.slug}>
             <TourCard tour={tour} />
+            <div>{tour.distance}</div>
             <ActionButtons>
               <ActionButton onClick={() => onEdit(tour)}>Edit</ActionButton>
               <ActionButton
