@@ -113,12 +113,6 @@ function UserForm({
     }
   };
 
-  const clearModal = () => {
-    setName("");
-    setEmail("");
-    setRole("");
-  };
-
   const handleDelete = () => {
     if (user) {
       const confirmed = window.confirm(
@@ -126,7 +120,8 @@ function UserForm({
       );
       if (confirmed) {
         onDelete(user._id);
-        clearModal();
+      } else {
+        onClose();
       }
     }
   };

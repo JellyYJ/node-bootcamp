@@ -3,8 +3,7 @@ import { useMoveBack } from "../utils/useMoveBack";
 import Heading from "./Heading";
 
 const StyledPageNotFound = styled.main`
-  height: 100vh;
-  background-color: var(--color-green-00);
+  height: 50vh;
   display: flex;
   align-items: center;
   justify-content: center;

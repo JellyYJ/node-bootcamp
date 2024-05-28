@@ -42,9 +42,9 @@ function Table({ users }) {
       <TableComponent>
         <thead>
           <tr>
+            <Th>Photo</Th>
             <Th>Email</Th>
             <Th>Name</Th>
-            <Th>Photo</Th>
             <Th>Role</Th>
             <Th>Actions</Th>
           </tr>
