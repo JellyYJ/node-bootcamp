@@ -182,7 +182,7 @@ function TourCard({ tour }) {
             <CardFooterText>{`ratings (${tour.ratingsQuantity})`}</CardFooterText>
           </CardFooterItem>
         </CardFooterItems>
-        <Button href={`/tours/${tour.id}`}>Details</Button>
+        <Button href={`/tours/${tour._id}`}>Details</Button>
       </CardFooter>
     </CardContainer>
   );

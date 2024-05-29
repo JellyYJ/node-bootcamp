@@ -3,11 +3,10 @@ import { server as hostUrl } from "../config";
 import axios from "axios";
 
 // Tours
-export async function getToursData() {
+export async function getTours() {
   try {
     const response = await axios.get(hostUrl + "/api/v1/tours");
     const toursData = response.data.data.data;
-    // console.log(toursData);
     // console.log("api", response.data); ORIGINAL VERSION
     return toursData;
   } catch (err) {
@@ -27,6 +26,20 @@ export async function getTour(tourId) {
   } catch (err) {
     console.log(err);
     throw new Error("Error retrieving tours from server");
+  }
+}
+
+export async function getToursByDistance(latitude, longitude) {
+  try {
+    const response = await axios.get(
+      hostUrl + `/api/v1/tours/distances/${latitude},${longitude}/unit/mi`
+    );
+    if (response.data.status === "success") {
+      return response.data.data.data;
+    }
+  } catch (error) {
+    console.error("Error fetching tours by distance:", error);
+    return [];
   }
 }
 

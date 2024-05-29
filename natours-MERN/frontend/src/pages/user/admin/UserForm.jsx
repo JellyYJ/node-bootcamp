@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+
 import Input from "../../../components/Input";
 import Heading from "../../../components/Heading";
-import { server as hostUrl } from "../../../config";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -70,38 +70,6 @@ const SubmitButton = styled.button`
   }
 `;
 
-const ProfileContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const ProfileImg = styled.img`
-  height: 8rem;
-  width: 8rem;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-  object-fit: cover;
-`;
-
-const FileInput = styled.input`
-  display: none;
-`;
-
-const UploadButton = styled.label`
-  font-size: 1.5rem;
-  padding: 0.5rem 0.5rem;
-  border-radius: 5px;
-  color: var(--color-green-400);
-  cursor: pointer;
-  transition: all 0.3s;
-  &:hover {
-    background-color: var(--color-green-400);
-    color: #fff;
-    transform: translateY(-0.3rem);
-  }
-`;
-
 const ButtonGroup = styled.div`
   display: "flex";
   justify-content: flex-end;
@@ -124,25 +92,17 @@ const DeleteButton = styled.button`
   }
 `;
 
-function UserForm({ user, onUpdate, onClose, isLoading, onDelete }) {
+function UserForm({
+  user,
+  onUpdate,
+  onClose,
+  isUpdating,
+  onDelete,
+  isDeleting,
+}) {
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
   const [role, setRole] = useState(user?.role);
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (!name || !email || !role) return;
-
-  //   const formData = new FormData();
-  //   formData.append("name", name);
-  //   formData.append("email", email);
-  //   formData.append("role", role);
-
-  //   if (user) {
-  //     console.log("FormData:", Array.from(formData.entries()));
-  //     onUpdate(formData, user._id);
-  // }
-  // };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -153,12 +113,6 @@ function UserForm({ user, onUpdate, onClose, isLoading, onDelete }) {
     }
   };
 
-  const clearModal = () => {
-    setName("");
-    setEmail("");
-    setRole("");
-  };
-
   const handleDelete = () => {
     if (user) {
       const confirmed = window.confirm(
@@ -166,7 +120,8 @@ function UserForm({ user, onUpdate, onClose, isLoading, onDelete }) {
       );
       if (confirmed) {
         onDelete(user._id);
-        clearModal();
+      } else {
+        onClose();
       }
     }
   };
@@ -210,33 +165,22 @@ function UserForm({ user, onUpdate, onClose, isLoading, onDelete }) {
             />
           </FormGroup>
 
-          {/* <FormGroup>
-            <ProfileContainer>
-              <ProfileImg src={imageUrl} alt={`Photo of User`} />
-              <UploadButton htmlFor="photo">Upload User Photo</UploadButton>
-              <FileInput
-                id="photo"
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoChange}
-              />
-            </ProfileContainer>
-          </FormGroup> */}
-
           {user ? (
             <ButtonGroup>
               <SubmitButton
-                disabled={isLoading}
+                disabled={isUpdating}
                 type="submit"
                 onClick={handleSubmit}
               >
-                {isLoading ? "Updating..." : "Update"}
+                {isUpdating ? "Updating..." : "Update"}
               </SubmitButton>
-              <DeleteButton onClick={handleDelete}>Delete</DeleteButton>
+              <DeleteButton disabled={isDeleting} onClick={handleDelete}>
+                Delete
+              </DeleteButton>
             </ButtonGroup>
           ) : (
-            <SubmitButton disabled={isLoading} type="submit">
-              {isLoading ? "Saving..." : "Save"}
+            <SubmitButton disabled={isUpdating} type="submit">
+              {isUpdating ? "Saving..." : "Save"}
             </SubmitButton>
           )}
         </form>

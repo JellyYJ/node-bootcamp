@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import { server as hostUrl } from "../config";
 
 const Td = styled.td`
   border: 1px solid #ddd;
@@ -21,18 +21,29 @@ const Button = styled.button`
   }
 `;
 
-function Row({ user, onEdit, onDelete }) {
+const ProfileImg = styled.img`
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  object-fit: cover;
+`;
+
+function Row({ user, onEdit }) {
+  const imageUrl = user.photo
+    ? `${hostUrl}/img/users/${user.photo}`
+    : `${hostUrl}/img/users/default.jpg`;
+
   return (
     <tr>
+      <Td>
+        <ProfileImg src={imageUrl} alt={user.name} />
+      </Td>
       <Td>{user.email}</Td>
       <Td>{user.name}</Td>
-      <Td>
-        <img src={user.photo} alt={user.name} width="50" />
-      </Td>
       <Td>{user.role}</Td>
       <Td>
         <Button onClick={() => onEdit(user)}>Edit</Button>
-        {/* <Button onClick={() => onDelete(user._id)}>Delete</Button> */}
       </Td>
     </tr>
   );
