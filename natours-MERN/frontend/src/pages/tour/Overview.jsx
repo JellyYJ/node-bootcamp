@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import TourCard from "./TourCard";
-import { useTours } from "./useTours";
+import { useEffect, useState } from "react";
 
+import { useTours } from "./useTours";
+import { useTourDistances } from "./useTourDistances";
+import { filterTours, sortTours } from "../../utils/tourUtils";
+
+import TourCard from "./TourCard";
 import Empty from "../../components/Empty";
 import Spinner from "../../components/Spinner";
-import { filterTours, sortTours } from "../../utils/tourUtils";
-import { useEffect, useState } from "react";
-import { getToursByDistance } from "../../api/tourApi";
 import TourFilters from "./TourFilters";
 
 const Main = styled.div`
@@ -48,19 +49,24 @@ const CardContainer = styled.div`
 `;
 
 function Overview() {
-  const { isPending, tours = [] } = useTours();
+  const { isPending: isToursLoading, tours = [] } = useTours();
+
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+
+  const { isLoading: isDistanceToursLoading, tours: distanceTours = [] } =
+    useTourDistances(latitude, longitude);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("none");
   const [filterDifficulty, setFilterDifficulty] = useState("all");
-  const [distanceTours, setDistanceTours] = useState([]);
 
   useEffect(() => {
     const getUserLocation = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          fetchTours(latitude, longitude);
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
         },
         (error) => {
           console.error("Error getting user location:", error);
@@ -71,21 +77,17 @@ function Overview() {
     getUserLocation();
   }, []);
 
-  const fetchTours = async (latitude, longitude) => {
-    const toursByDistance = await getToursByDistance(latitude, longitude);
-    setDistanceTours(toursByDistance);
-  };
-
   // FILTERS AND SORTING
   const filteredTours = filterTours(
     distanceTours.length ? distanceTours : tours,
     searchQuery,
     filterDifficulty
   );
-  const filteredAndSortedTours = sortTours(filteredTours, sortOrder);
+  const filteredAndSortedTours = sortTours(filteredTours, sortOrder) || [];
 
-  if (isPending) return <Spinner />;
-  if (!tours) return <Empty resourceName="Tours" />;
+  if (isToursLoading || isDistanceToursLoading) return <Spinner />;
+  if (!tours.length && !distanceTours.length)
+    return <Empty resourceName="Tours" />;
 
   return (
     <Main>
@@ -100,8 +102,11 @@ function Overview() {
 
       <Container>
         {filteredAndSortedTours.map((tour) => (
-          <CardContainer key={tour.slug}>
-            <TourCard tour={tour} isPending={isPending} />
+          <CardContainer key={tour._id}>
+            <TourCard
+              tour={tour}
+              isPending={isToursLoading || isDistanceToursLoading}
+            />
           </CardContainer>
         ))}
       </Container>

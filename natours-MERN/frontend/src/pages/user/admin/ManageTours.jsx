@@ -1,9 +1,10 @@
 import styled from "styled-components";
-
 import { useEffect, useState } from "react";
+
 import { useTours } from "../../tour/useTours";
 import { useTourActions } from "./useTourActions";
-import { getToursByDistance } from "../../../api/tourApi";
+import { filterTours, sortTours } from "../../../utils/tourUtils";
+import { useTourDistances } from "../../tour/useTourDistances";
 
 import TourCard from "../../tour/TourCard";
 import Spinner from "../../../components/Spinner";
@@ -12,7 +13,6 @@ import Heading from "../../../components/Heading";
 import AddTourForm from "./AddTourForm";
 import UpdateTourForm from "./UpdateTourForm";
 import TourFilters from "../../tour/TourFilters";
-import { filterTours, sortTours } from "../../../utils/tourUtils";
 
 const Container = styled.div`
   max-width: 130rem;
@@ -114,15 +114,20 @@ function ManageTours() {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("none");
   const [filterDifficulty, setFilterDifficulty] = useState("all");
-  const [distanceTours, setDistanceTours] = useState([]);
+  // const [distanceTours, setDistanceTours] = useState([]);
+
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+
+  const { isLoading: isDistanceToursLoading, tours: distanceTours = [] } =
+    useTourDistances(latitude, longitude);
 
   useEffect(() => {
     const getUserLocation = () => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const latitude = position.coords.latitude;
-          const longitude = position.coords.longitude;
-          fetchTours(latitude, longitude);
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
         },
         (error) => {
           console.error("Error getting user location:", error);
@@ -132,11 +137,6 @@ function ManageTours() {
 
     getUserLocation();
   }, []);
-
-  const fetchTours = async (latitude, longitude) => {
-    const toursByDistance = await getToursByDistance(latitude, longitude);
-    setDistanceTours(toursByDistance);
-  };
 
   const onAdd = () => {
     setSelectedTour(null);

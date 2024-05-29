@@ -32,7 +32,7 @@ export async function getTour(tourId) {
 export async function getToursByDistance(latitude, longitude) {
   try {
     const response = await axios.get(
-      hostUrl + `/api/v1/tours/distances/${longitude},${latitude}/unit/mi`
+      hostUrl + `/api/v1/tours/distances/${latitude},${longitude}/unit/mi`
     );
     if (response.data.status === "success") {
       return response.data.data.data;

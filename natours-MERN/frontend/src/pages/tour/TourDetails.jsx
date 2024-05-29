@@ -9,11 +9,10 @@ import Empty from "../../components/Empty";
 import BookTour from "./BookTour";
 
 function TourDetails() {
-  const { tour, isPending } = useTour();
+  const { tour = {}, isPending } = useTour();
 
   if (isPending) return <Spinner />;
   if (!tour) return <Empty></Empty>;
-  // console.log(tour);
 
   return (
     <>

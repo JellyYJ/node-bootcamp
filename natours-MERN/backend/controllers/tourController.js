@@ -237,7 +237,7 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
 //   });
 // });
 
-//   // SAME IDEA TO ABOVE distnaces function, but return tour full data
+// SAME IDEA TO ABOVE distnaces function, but return tour full data
 exports.getDistances = catchAsync(async (req, res, next) => {
   const { latlng, unit } = req.params;
   const [lat, lng] = latlng.split(',');
@@ -265,7 +265,7 @@ exports.getDistances = catchAsync(async (req, res, next) => {
       },
     },
     {
-      $sort: { distance: 1 }, // Sort by distance ascending
+      $sort: { distance: 1 },
     },
   ]);
 

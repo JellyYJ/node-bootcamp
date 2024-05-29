@@ -4,7 +4,6 @@ import { server as hostUrl } from "../../config";
 const ReviewContainer = styled.div`
   display: flex;
   flex-direction: row;
-
   background-color: var(--color-green-0);
   border-radius: 10px;
   padding: 2.5rem;
@@ -44,6 +43,10 @@ const StarIcon = styled.svg`
 `;
 
 function TestimonialCard({ user, reviewtext, rating }) {
+  if (!user) {
+    return null;
+  }
+
   const { photo, name } = user;
 
   const renderStars = (rating) => {
