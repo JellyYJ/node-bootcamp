@@ -76,8 +76,7 @@ function TourContents({
   name,
   description,
 }) {
-  const paragraphs = description.split("\n");
-  // console.log("start:", startDate);
+  const paragraphs = description?.split("\n");
   const startDateConverted = convertToDateOnly(startDate);
 
   return (
@@ -103,27 +102,31 @@ function TourContents({
           />
         </FactsContents>
 
-        <FactsContents>
-          <Heading as="h3">Your Tour Guides</Heading>
-          {guides.map((guide) => (
-            <TourFacts
-              key={guide._id}
-              photo={guide.photo}
-              label={guide.role === "guide" ? "Tour-Guide" : guide.role}
-              text={guide.name}
-            />
-          ))}
-        </FactsContents>
+        {guides.length > 0 && (
+          <FactsContents>
+            <Heading as="h3">Your Tour Guides</Heading>
+            {guides.map((guide) => (
+              <TourFacts
+                key={guide._id}
+                photo={guide.photo}
+                label={guide.role === "guide" ? "Tour-Guide" : guide.role}
+                text={guide.name}
+              />
+            ))}
+          </FactsContents>
+        )}
       </FactsContainer>
 
-      <DescriptionContainer>
-        <Heading as="h3">About {name}</Heading>
-        {paragraphs.map((text, index) => (
-          <p key={index} className="description__text">
-            {text}
-          </p>
-        ))}
-      </DescriptionContainer>
+      {paragraphs && (
+        <DescriptionContainer>
+          <Heading as="h3">About {name}</Heading>
+          {paragraphs.map((text, index) => (
+            <p key={index} className="description__text">
+              {text}
+            </p>
+          ))}
+        </DescriptionContainer>
+      )}
     </ContentsContainer>
   );
 }

@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import { server as hostUrl } from "../../config";
 
 const ItemContainer = styled.div`
   display: flex;
@@ -34,7 +34,7 @@ const TourFacts = ({ icon, label, text, photo }) => {
           <use xlinkHref={`/icons.svg#icon-${icon}`}></use>
         </Icon>
       )}
-      {photo && <Photo src={`/img/users/${photo}`}></Photo>}
+      {photo && <Photo src={`${hostUrl}/img/users/${photo}`}></Photo>}
       {label && <Label>{label}:</Label>}
       <p>{text}</p>
     </ItemContainer>

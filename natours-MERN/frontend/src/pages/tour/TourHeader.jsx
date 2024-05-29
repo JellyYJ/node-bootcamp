@@ -90,6 +90,7 @@ const TourHeader = ({ imageCover, name, duration, startLocation }) => {
         <ImgOverlay>&nbsp;</ImgOverlay>
         <HeaderImg src={`${hostUrl}/img/tours/${imageCover}`} alt={name} />
       </ImgContainer>
+
       <HeadingBox>
         <Heading as="h1">{name}</Heading>
         <SubHeadingContainer>
@@ -103,7 +104,7 @@ const TourHeader = ({ imageCover, name, duration, startLocation }) => {
             <Icon>
               <use xlinkHref="/icons.svg#icon-map-pin"></use>
             </Icon>
-            <span>{startLocation.description}</span>
+            <span>{startLocation?.description}</span>
           </SubHeading>
         </SubHeadingContainer>
       </HeadingBox>
