@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import Heading from "../../../components/Heading";
 import Input from "../../../components/Input";
+import DatePicker, { DateObject } from "react-multi-date-picker";
+import DatePanel from "react-multi-date-picker/plugins/date_panel";
+
+const format = "MM/DD/YYYY";
 
 const ModalOverlay = styled.div`
   position: fixed;
@@ -114,6 +118,7 @@ function AddTourForm({ onSave, onClose, isCreating }) {
   const [maxGroupSize, setMaxGroupSize] = useState("");
   const [difficulty, setDifficulty] = useState("");
   const [price, setPrice] = useState("");
+  const [startDates, setStartDates] = useState([]);
   const [summary, setSummary] = useState("");
 
   const isNameValid = name.length >= 10;
@@ -132,10 +137,20 @@ function AddTourForm({ onSave, onClose, isCreating }) {
         difficulty,
         price: parseInt(price),
         summary,
+        startDates: startDates.map((date) => date.format(format)), // Format the dates
       };
       onSave(tourData);
     } else {
       return;
+    }
+  };
+
+  // Limit dates selection
+  const handleDateChange = (dates) => {
+    if (dates.length <= 5) {
+      setStartDates(dates);
+    } else {
+      alert("You can select up to 5 dates only.");
     }
   };
 
@@ -174,6 +189,25 @@ function AddTourForm({ onSave, onClose, isCreating }) {
               />
             </FormGroup>
 
+            <FormGroup>
+              <FormLabel>Start Dates</FormLabel>
+              <DatePicker
+                value={startDates}
+                onChange={handleDateChange}
+                multiple
+                sort
+                format={format}
+                minDate={new DateObject().set({
+                  day: new Date().getDate(),
+                  format,
+                })}
+                calendarPosition="bottom-center"
+                plugins={[<DatePanel />]}
+              />
+            </FormGroup>
+          </FormSection>
+
+          <FormSection>
             <FormGroup>
               <FormLabel>Max Group Size</FormLabel>
               <Input

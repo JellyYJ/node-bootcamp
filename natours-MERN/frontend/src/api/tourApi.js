@@ -52,6 +52,7 @@ export async function createTour(tourData) {
     difficulty,
     price,
     summary,
+    startDates,
     // imageCover,
   } = tourData;
 
@@ -61,7 +62,8 @@ export async function createTour(tourData) {
     maxGroupSize,
     difficulty,
     price,
-    summary
+    summary,
+    startDates
     // imageCover
   );
 
@@ -85,6 +87,7 @@ export async function createTour(tourData) {
         difficulty,
         price,
         summary,
+        startDates,
         // imageCover,
       },
     });
