@@ -35,6 +35,7 @@ const Container = styled.div`
     grid-template-columns: 1fr;
   }
 `;
+
 const CardContainer = styled.div`
   background-color: var(--color-green-0);
   border-radius: 3px;
@@ -101,14 +102,18 @@ function Overview() {
       />
 
       <Container>
-        {filteredAndSortedTours.map((tour) => (
-          <CardContainer key={tour._id}>
-            <TourCard
-              tour={tour}
-              isPending={isToursLoading || isDistanceToursLoading}
-            />
-          </CardContainer>
-        ))}
+        {filteredAndSortedTours.length ? (
+          filteredAndSortedTours.map((tour) => (
+            <CardContainer key={tour._id}>
+              <TourCard
+                tour={tour}
+                isPending={isToursLoading || isDistanceToursLoading}
+              />
+            </CardContainer>
+          ))
+        ) : (
+          <Empty resourceName="results" />
+        )}
       </Container>
     </Main>
   );

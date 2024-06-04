@@ -36,7 +36,7 @@ function SideNav({ role }) {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsSmallScreen(window.innerWidth < 1024);
+      setIsSmallScreen(window.innerWidth < 1440);
     };
 
     handleResize(); // Initial check
