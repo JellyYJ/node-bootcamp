@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Heading from "../../components/Heading";
+import { server as hostUrl } from "../../config";
 
 const SectionHeader = styled.section`
   position: relative;
@@ -87,8 +88,9 @@ const TourHeader = ({ imageCover, name, duration, startLocation }) => {
     <SectionHeader>
       <ImgContainer>
         <ImgOverlay>&nbsp;</ImgOverlay>
-        <HeaderImg src={`/img/tours/${imageCover}`} alt={name} />
+        <HeaderImg src={`${hostUrl}/img/tours/${imageCover}`} alt={name} />
       </ImgContainer>
+
       <HeadingBox>
         <Heading as="h1">{name}</Heading>
         <SubHeadingContainer>
@@ -102,7 +104,7 @@ const TourHeader = ({ imageCover, name, duration, startLocation }) => {
             <Icon>
               <use xlinkHref="/icons.svg#icon-map-pin"></use>
             </Icon>
-            <span>{startLocation.description}</span>
+            <span>{startLocation?.description}</span>
           </SubHeading>
         </SubHeadingContainer>
       </HeadingBox>

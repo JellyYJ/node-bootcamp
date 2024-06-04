@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { convertToMonthOnly } from "../../utils/dateConverter";
 import TourFacts from "./TourFacts";
+import { server as hostUrl } from "../../config";
 
 const CardContainer = styled.div`
   background-color: var(--color-green-0);
@@ -131,14 +132,15 @@ const Button = styled.a`
   }
 `;
 
-function TourCard({ tour, isPending }) {
+function TourCard({ tour }) {
   return (
     <CardContainer key={tour.slug}>
       <CardHeader>
         <CardPicture>
           <CardPictureOverlay>&nbsp;</CardPictureOverlay>
           <CardPictureImg
-            src={`img/tours/${tour.imageCover}`}
+            src={`${hostUrl}/img/tours/${tour.imageCover}`}
+            // src={`img/tours/${tour.imageCover}`}
             alt={tour.name}
           />
         </CardPicture>
@@ -151,12 +153,20 @@ function TourCard({ tour, isPending }) {
         </CardSubHeading>
         <CardText>{tour.summary}</CardText>
 
-        <TourFacts icon="map-pin" text={tour.startLocation.description} />
-        <TourFacts
-          icon="calendar"
-          text={convertToMonthOnly(tour.startDates[0])}
-        />
-        <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
+        {tour.startLocation && (
+          <TourFacts icon="map-pin" text={tour.startLocation.description} />
+        )}
+
+        {tour.startDates[0] && (
+          <TourFacts
+            icon="calendar"
+            text={convertToMonthOnly(tour.startDates[0])}
+          />
+        )}
+
+        {tour.locations && (
+          <TourFacts icon="flag" text={`${tour.locations.length} stops`} />
+        )}
         <TourFacts icon="user" text={`${tour.maxGroupSize} people`} />
       </CardDetails>
 
@@ -172,7 +182,7 @@ function TourCard({ tour, isPending }) {
             <CardFooterText>{`ratings (${tour.ratingsQuantity})`}</CardFooterText>
           </CardFooterItem>
         </CardFooterItems>
-        <Button href={`/tours/${tour.id}`}>Details</Button>
+        <Button href={`/tours/${tour._id}`}>Details</Button>
       </CardFooter>
     </CardContainer>
   );

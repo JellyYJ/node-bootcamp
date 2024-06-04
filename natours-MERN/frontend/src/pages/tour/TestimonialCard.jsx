@@ -1,9 +1,9 @@
 import styled from "styled-components";
+import { server as hostUrl } from "../../config";
 
 const ReviewContainer = styled.div`
   display: flex;
   flex-direction: row;
-
   background-color: var(--color-green-0);
   border-radius: 10px;
   padding: 2.5rem;
@@ -43,6 +43,10 @@ const StarIcon = styled.svg`
 `;
 
 function TestimonialCard({ user, reviewtext, rating }) {
+  if (!user) {
+    return null;
+  }
+
   const { photo, name } = user;
 
   const renderStars = (rating) => {
@@ -59,7 +63,7 @@ function TestimonialCard({ user, reviewtext, rating }) {
 
   return (
     <ReviewContainer>
-      <UserPhoto src={`/img/users/${photo}`} alt={name} />
+      <UserPhoto src={`${hostUrl}/img/users/${photo}`} alt={name} />
       <ReviewContent>
         <ReviewText>{reviewtext}</ReviewText>
         <Rating>{renderStars(rating)}</Rating>

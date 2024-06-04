@@ -20,7 +20,7 @@ const MainContainer = styled.div`
   grid-template-columns: auto 1fr;
   gap: 10rem;
 
-  @media only screen and (max-width: 1024px) {
+  @media only screen and (max-width: 1440px) {
     width: 60%;
     gap: 0rem;
   }
