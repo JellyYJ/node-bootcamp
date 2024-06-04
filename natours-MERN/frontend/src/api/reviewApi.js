@@ -1,5 +1,5 @@
-import { server as hostUrl } from "../config";
-// import { deployedServer as hostUrl } from "../config";
+// import { server as hostUrl } from "../config";
+import { deployedServer as hostUrl } from "../config";
 import axios from "axios";
 
 // Reviews
