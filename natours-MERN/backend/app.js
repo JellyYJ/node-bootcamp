@@ -19,11 +19,12 @@ const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 
-const cors = require('cors');
-// Implement cors
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173', // Local development
+      'https://natoursmern.netlify.app', // Deployed frontend
+    ],
     credentials: true,
   })
 );
