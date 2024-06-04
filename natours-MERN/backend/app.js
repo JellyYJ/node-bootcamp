@@ -9,6 +9,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -22,6 +23,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 app.use(
   cors({
     origin: [
+      'https://natours.com',
       'http://localhost:5173', // Local development
       'https://natoursmern.netlify.app', // Deployed frontend
     ],
